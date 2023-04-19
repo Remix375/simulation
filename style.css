@@ -1,0 +1,32 @@
+html {
+    height: 100%;
+    width: 100%;
+}
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+#parameters {
+    height: 100%;
+    width: 20%;
+    position: absolute;
+    background-color: white;
+    border-radius: 10px;
+}
+
+#move {
+    height: 50px;
+    width: 100%;
+    background-color: white;
+    overflow: hidden;
+}
+
+
+#canvas {
+    margin: 50px auto;
+    border: 1px black solid;
+    display: block;
+    background-color: aqua;
+}
