@@ -8,21 +8,62 @@ body {
     margin: 0;
 }
 
+
+#page {
+    display: flex;
+    height: 100%;
+}
+
 #parameters {
     height: 100%;
-    width: 20%;
-    position: absolute;
-    background-color: white;
-    border-radius: 10px;
+    width: 35%;
+    background-color: brown;
+    border-radius: 3px;
+
 }
 
-#move {
-    height: 50px;
-    width: 100%;
-    background-color: white;
-    overflow: hidden;
+#parameters div {
+    height: 90%;
+    width: 85%;
+    background-color: black;
+    border-radius: 20px;
+    margin: 0 auto;
+    position: relative;
+    top: 50%;
+    transform: translate(0, -50%);
+
 }
 
+#parameters ul {
+    list-style-type: none;
+    color: white;
+    text-align: center;
+    padding: 0;
+    padding-top: 5%;
+    margin-top: 0;
+}
+
+#parameters li {
+    display: inline;
+    padding: 5%;
+    font-size: 30px;
+    font-family: 'Roboto Mono', monospace;
+}
+
+#parameters li:hover {
+    cursor: pointer;
+}
+#parameters li:active {
+    color: rgb(147, 177, 189)
+}
+
+#parameters hr{ 
+    display: inline;
+    border: none;
+    border-left: 1px solid hsla(200, 10%, 50%,100);
+    width: 1px;
+    height: 25px;
+}
 
 #canvas {
     margin: 50px auto;

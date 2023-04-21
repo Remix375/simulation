@@ -6,7 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="particle.js" defer></script>
     <script src="logic.js" defer></script>
-    <script src="drag_parameters.js" defer></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
     <link href="style.css" rel="stylesheet" type="text/css">
     <title>Simulation</title>
 </head>
@@ -19,11 +22,27 @@
     -->
 
 
+    <div id="page">
+        <div id="parameters">
+            <div>
+                <nav>
+                    <ul>
+                        <li>Objects</li>
+                        <hr>
+                        <li>Scene</li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <div id="game_window">
+            <canvas id="canvas" width="800" height="500"></canvas>
+        </div>
+    </div>
 
 
 
-
-    <canvas id="canvas" width="800" height="500"></canvas>
+    
 
     <button id="increase_zoom">increase Zoom</button>
     <button id="decrease_zoom">decrease Zoom</button>

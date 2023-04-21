@@ -13,9 +13,14 @@ class Particle {
         this.accY = accY;
 
         this.color = color;
+
+        this.dead = false;
     }
 
 
+    get isdead() {
+        return this.dead
+    }
 
     draw(ctx, zoom) {
         ctx.beginPath();
@@ -24,6 +29,7 @@ class Particle {
         ctx.fill();
     }
 
+    
 
     update() {
         this.posX += this.speedX/60;
@@ -31,6 +37,13 @@ class Particle {
 
         this.speedX += this.accX/60;
         this.speedY += this.accY/60;
+
+
+
+
+        if (this.posY > canvas.clientHeight + 50 || this.posY < -40 || this.posX > canvas.clientWidth + 50 || this.posX < -40) {
+            this.dead = true;
+        }
     }
 }
 
@@ -43,5 +56,6 @@ function drawScale(ctx, zoom) {
 
     ctx.font = `${20*zoom}px serif`;
     ctx.fillText('1 meter', (40 + 100*zoom) / 4, canvas.clientHeight - 30);
+
 }
 
