@@ -17,10 +17,10 @@ class Particle {
 
 
 
-    draw(ctx) {
+    draw(ctx, zoom) {
         ctx.beginPath();
         ctx.fillStyle = this.color;
-        ctx.arc(this.posX, this.posY, 10, 0, Math.PI * 2, false);
+        ctx.arc(this.posX * zoom, this.posY * zoom, 10 * zoom, 0, Math.PI * 2, false);
         ctx.fill();
     }
 
@@ -34,4 +34,14 @@ class Particle {
     }
 }
 
+
+function drawScale(ctx, zoom) {
+    ctx.fillRect(20, canvas.clientHeight - 20, 100 * zoom, 4);
+    ctx.fillRect(20, canvas.clientHeight - 30, 2, 24);
+    ctx.fillRect(20 + 100*zoom, canvas.clientHeight - 30, 2, 24);
+
+
+    ctx.font = `${20*zoom}px serif`;
+    ctx.fillText('1 meter', (40 + 100*zoom) / 4, canvas.clientHeight - 30);
+}
 
