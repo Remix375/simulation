@@ -11,17 +11,12 @@ const ctx = canvas.getContext("2d");
 let timeCount = 0;
 
 
+canvas.addEventListener("wheel", (event) => {
+    
+    current_zoom = Math.min(5, Math.max(0.1, current_zoom-1e-3 * event.deltaY))
+    console.log(current_zoom);
+})
 
-
-
-document.getElementById("increase_zoom").onclick = () => {
-    current_zoom += 0.2
-}
-
-
-document.getElementById("decrease_zoom").onclick = () => {
-    current_zoom -= 0.2
-}
 
 
 

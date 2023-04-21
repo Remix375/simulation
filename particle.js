@@ -39,9 +39,7 @@ class Particle {
         this.speedY += this.accY/60;
 
 
-
-
-        if (this.posY > canvas.clientHeight + 50 || this.posY < -40 || this.posX > canvas.clientWidth + 50 || this.posX < -40) {
+        if (this.posY > canvas.clientHeight/0.1 + 50 || this.posY < -40 || this.posX > canvas.clientWidth/0.1 + 50 || this.posX < -40) {
             this.dead = true;
         }
     }
@@ -58,4 +56,7 @@ function drawScale(ctx, zoom) {
     ctx.fillText('1 meter', (40 + 100*zoom) / 4, canvas.clientHeight - 30);
 
 }
+
+
+
 
