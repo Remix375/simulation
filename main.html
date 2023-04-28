@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="particle.js" defer></script>
     <script src="logic.js" defer></script>
+    <script src="param_dropdown.js" defer></script>
 
     <script src="https://kit.fontawesome.com/bfb86f04f2.js" crossorigin="anonymous"></script>
 
@@ -36,8 +37,8 @@
                 </nav>
 
                 <div id="objects">
-                    <div>
-                        <div id="ball-title-menue">
+                    <div id="ball_obj_param">
+                        <div id="ball-title-menue" onclick="dropDownParam('ball_obj_param')">
                             <i class="fa-solid fa-chevron-down chevron-down" style="color: #ffffff; display: inline-block;"></i>
                             <h3>Ball</h3>
                         </div>
@@ -45,15 +46,15 @@
                         <div class="subsettings">
                             <div class="param_perso">
                                 <h5>Size</h5>
-                                <input type="number">
+                                <input type="number" onchange="changeValue('ball', 'size', this)">
                             </div>
                             <div class="param_perso">
                                 <h5>Mass</h5>
-                                <input type="number">
+                                <input type="number" onchange="changeValue('ball', 'mass', this)">
                             </div>
                             <div class="param_perso">
                                 <h5>Color</h5>
-                                <input type="color">
+                                <input type="color" onchange="changeValue('ball', 'color', this)">
                             </div>
                         </div>
                     </div>
