@@ -1,3 +1,9 @@
+:root {
+    --púrprl: #9e0e40;
+  }
+
+
+
 html {
     height: 100%;
     width: 100%;
@@ -16,8 +22,8 @@ body {
 
 #parameters {
     height: 100%;
-    width: 35%;
-    background-color: brown;
+    width: 40%;
+    background-color: var(--púrprl);
     border-radius: 3px;
 
 }
@@ -45,9 +51,10 @@ body {
 }
 
 #parameters li {
+    vertical-align:middle;
     display: inline-block;
     padding: 5%;
-    font-size: 50px;
+    font-size: 3rem;
     font-family: 'Roboto Mono', monospace;
 }
 
@@ -63,13 +70,23 @@ body {
     border: none;
     border-left: 1px solid hsla(200, 10%, 50%,100);
     width: 1px;
-    height: 50px;
+    height: 4rem;
     margin: 0;
+    vertical-align:middle;
+    
 }
 
 #canvas {
-    margin: 50px auto;
+    margin: 0 auto;
     border: 1px black solid;
     display: block;
     background-color: aqua;
+
+}
+
+
+#options {
+    height: 30%;
+    width: 100%;
+    background-color: var(--púrprl);
 }

@@ -41,6 +41,10 @@ function clearDead(l) {
 
 
 const mainLoop = () => {
+    ctx.canvas.width = window.innerWidth * 0.6;
+    ctx.canvas.height = window.innerHeight * 0.7;
+
+
     timeCount += 1
     ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight)
 
