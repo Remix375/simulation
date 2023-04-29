@@ -1,20 +1,53 @@
 
 
+class Vector {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
 
-class Particle {
-    constructor(posX, posY, speedX, speedY, accX, accY, color) {
-        this.posX = posX;
-        this.posY = posY;
+    add(v) {
+        this.x += v.x;
+        this.y += v.y;
+    }
 
-        this.speedX = speedX;
-        this.speedY = speedY;
+    subtract(v) {
+        this.x -= v.x;
+        this.y -= v.y;
+    }
 
-        this.accX = accX;
-        this.accY = accY;
+    mult(n) {
+        this.x *= n;
+        this.y *= n;
+    }
+
+    magn() {
+        return Math.sqrt(this.x ** 2 + this.y**2);
+    }
+
+
+    static dot(v1, v2) {
+        return v1.x * v2.x + v1.y * v2.y;
+    }
+}
+
+
+class Circle {
+    constructor(radius, posX, posY, speedX, speedY, accX, accY, mass, color) {
+        this.size = radius;
+
+        this.pos = new Vector(posX, posY);
+
+        this.speed = new Vector(speedX/60, speedY/60);
+
+        this.acc = new Vector(accX/60, accY/60);
+
+        this.mass = mass
 
         this.color = color;
 
         this.dead = false;
+
     }
 
 
@@ -25,21 +58,19 @@ class Particle {
     draw(ctx, zoom) {
         ctx.beginPath();
         ctx.fillStyle = this.color;
-        ctx.arc(this.posX * zoom, this.posY * zoom, 10 * zoom, 0, Math.PI * 2, false);
+        ctx.arc(this.pos.x * zoom, this.pos.y * zoom, this.size * zoom, 0, Math.PI * 2, false);
         ctx.fill();
     }
 
     
 
-    update() {
-        this.posX += this.speedX/60;
-        this.posY += this.speedY/60;
+    update(friction) {
+        this.pos.add(this.speed);
 
-        this.speedX += this.accX/60;
-        this.speedY += this.accY/60;
+        this.speed.add(this.acc);
+        this.speed.mult(1-friction);
 
-
-        if (this.posY > canvas.clientHeight/0.1 + 50 || this.posY < -40 || this.posX > canvas.clientWidth/0.1 + 50 || this.posX < -40) {
+        if (this.pos.y > canvas.clientHeight/0.1 + 50 || this.pos.y < -40 || this.pos.x > canvas.clientWidth/0.1 + 50 || this.pos.x < -40) {
             this.dead = true;
         }
     }
