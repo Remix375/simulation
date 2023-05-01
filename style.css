@@ -24,7 +24,6 @@ body {
     height: 100%;
     width: 40%;
     background-color: var(--púrprl);
-    border-radius: 3px;
 
 }
 
@@ -124,7 +123,6 @@ body {
 
 #canvas {
     margin: 0 auto;
-    border: 1px black solid;
     display: block;
     background-color: aqua;
 
