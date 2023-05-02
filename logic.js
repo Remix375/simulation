@@ -12,7 +12,7 @@ let timeCount = 0;
 
 const friction = 0.1;
 
-const controled = new Circle(20, 0, 0, 0, 0, 0, 0, 0, "green")
+const controled = new Circle(20, 0, 0, 0, 0, 0, 0, 1, "green")
 particles.push(controled);
 
 const b = new Circle(40, 100, 100, 0, 0, 0, 0, 10, 'blue')
@@ -109,15 +109,37 @@ function ballsTouching(b1, b2) {
 function pen_res_bb(b1, b2){
     let dist = b1.pos.subtr(b2.pos);
     let pen_depth = b1.size + b2.size - dist.mag();
-    let pen_res = dist.unit().mult(pen_depth/2);
-    b1.pos = b1.pos.add(pen_res);
-    b2.pos = b2.pos.add(pen_res.mult(-1));
+    let pen_res = dist.unit().mult(pen_depth / (b1.inv_mass + b2.inv_mass));
+    b1.pos = b1.pos.add(pen_res.mult(b1.inv_mass));
+    b2.pos = b2.pos.add(pen_res.mult(-b2.inv_mass));
 }
+
+function coll_res_bb(b1, b2){
+    let normal = b1.pos.subtr(b2.pos).unit();
+    let relVel = b1.vel.subtr(b2.vel);
+    let sepVel = Vector.dot(relVel, normal);
+    let new_sepVel = -sepVel;
+    
+    //the difference between the new and the original sep.velocity value
+    let vsep_diff = new_sepVel - sepVel;
+
+    //dividing the impulse value in the ration of the inverse masses
+    //and adding the impulse vector to the original vel. vectors
+    //according to their inverse mass
+    let impulse = vsep_diff / (b1.inv_mass + b2.inv_mass);
+    let impulseVec = normal.mult(impulse);
+
+    b1.vel = b1.vel.add(impulseVec.mult(b1.inv_mass));
+    b2.vel = b2.vel.add(impulseVec.mult(-b2.inv_mass));
+}
+
+
+
 
 const mainLoop = () => {
     ctx.canvas.width = window.innerWidth * 0.6;
     ctx.canvas.height = window.innerHeight * 0.7;
-
+    console.log(particles)
 
 
     timeCount += 1
@@ -129,13 +151,12 @@ const mainLoop = () => {
         clearDead(particles);
     }
 
-
     drawScale(ctx, current_zoom);
     for (let elt = 0; elt < particles.length; elt++) {
         for (let elt2 = elt+1; elt2 < particles.length; elt2++) {
-            console.log(particles[elt].size)
             if (ballsTouching(particles[elt], particles[elt2])){
                 pen_res_bb(particles[elt], particles[elt2]);
+                coll_res_bb(particles[elt], particles[elt2])
             }
         }
         particles[elt].draw(ctx, current_zoom);

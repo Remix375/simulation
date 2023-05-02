@@ -48,7 +48,7 @@ class Vector{
     }
 }
 
-
+//circles are define with a radius, position, velocity, acceleration, mass and color
 class Circle {
     constructor(radius, posX, posY, speedX, speedY, accX, accY, mass, color) {
         this.size = radius;
@@ -58,14 +58,20 @@ class Circle {
         //speed given in meters per second
         //converted to pixels per 1/60 seconds
         //100 pixels is a meter
-        this.speed = new Vector(100*speedX/60, 100*speedY/60);
+        this.vel = new Vector(100*speedX/60, 100*speedY/60);
 
         //acc given in meters per second^2
         //converted to pixels per 1/60 seconds ^2
         //100 pixels is a meter
         this.acc = new Vector(100*accX/3600, 100*accY/3600);
 
-        this.mass = mass
+        this.mass = mass;
+
+        if (this.mass === 0){
+            this.inv_mass = 0;
+        } else {
+            this.inv_mass = 1 / this.mass;
+        }
 
         this.color = color;
 
@@ -79,7 +85,7 @@ class Circle {
     }
 
     pr() {
-        return [this.size, this.pos.x, this.pos.y, this.speed.x, this.speed.y, this.acc.x, this.acc.y, this.mass, this.color]
+        return [this.size, this.pos.x, this.pos.y, this.vel.x, this.vel.y, this.acc.x, this.acc.y, this.mass, this.color]
     }
 
 
@@ -93,13 +99,34 @@ class Circle {
     
 
     update(friction) {
-        this.pos = this.pos.add(this.speed);
+        this.pos = this.pos.add(this.vel);
 
-        this.speed = this.speed.add(this.acc).mult(1-friction);
+        this.vel = this.vel.add(this.acc).mult(1-friction);
 
         if (this.pos.y > canvas.clientHeight/0.1 + 50 || this.pos.y < -40 || this.pos.x > canvas.clientWidth/0.1 + 50 || this.pos.x < -40) {
             this.dead = true;
         }
+    }
+}
+
+//Walls are line segments between two points
+class Wall{
+    constructor(x_start, y_start, x_end, y_end){
+        this.start = new Vector(x_start, y_start);
+        this.end = new Vector(x_end, y_end);
+    }
+
+    drawWall(){
+        ctx.beginPath();
+        ctx.moveTo(this.start.x, this.start.y);
+        ctx.lineTo(this.end.x, this.end.y);
+        ctx.strokeStyle = "black";
+        ctx.stroke();
+        ctx.closePath();
+    }
+
+    wallUnit(){
+        return this.end.subtr(this.start).unit();
     }
 }
 
