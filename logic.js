@@ -1,6 +1,11 @@
 
 
-let particles = [];
+let balls = [];
+let walls = [];
+
+
+
+walls.push(new Wall(100, 150, 20, 40));
 
 let current_zoom = 1;
 
@@ -12,11 +17,11 @@ let timeCount = 0;
 
 const friction = 0.1;
 
-const controled = new Circle(20, 0, 0, 0, 0, 0, 0, 1, "green")
-particles.push(controled);
+const controled = new Circle(20, 0, 0, 0, 0, 0, 0, 40, "green")
+balls.push(controled);
 
 const b = new Circle(40, 100, 100, 0, 0, 0, 0, 10, 'blue')
-particles.push(b);
+balls.push(b);
 
 //boolean variables - if true, ball moves in the direction
 let LEFT, UP, RIGHT, DOWN;
@@ -86,18 +91,18 @@ canvas.addEventListener("click", function(e) {
     const localX = e.clientX - e.target.offsetLeft;
     const localY = e.clientY - e.target.offsetTop;
 
-    particles.push(new Circle(20, localX / current_zoom, localY / current_zoom, 0, 0, 0, 0, 20, "red"));
+    balls.push(new Circle(20, localX / current_zoom, localY / current_zoom, 0, 0, 0, 0, 20, "red"));
 })
 
 
-function clearDead(l) {
+function clearDead() {
     replacement = []
-    for (let elt = 0; elt <particles.length; elt++) {
-        if (!particles[elt].isdead) {
-            replacement.push(particles[elt])
+    for (let elt = 0; elt <balls.length; elt++) {
+        if (!balls[elt].isdead) {
+            replacement.push(balls[elt])
         }
     }
-    particles = replacement;
+    balls = replacement;
 }
 
 
@@ -139,7 +144,7 @@ function coll_res_bb(b1, b2){
 const mainLoop = () => {
     ctx.canvas.width = window.innerWidth * 0.6;
     ctx.canvas.height = window.innerHeight * 0.7;
-    console.log(particles)
+    console.log(balls)
 
 
     timeCount += 1
@@ -148,21 +153,29 @@ const mainLoop = () => {
     //remove elements not in frame every 5 seconds
     //if 60fps
     if (timeCount % 300 == 0) {
-        clearDead(particles);
+        clearDead();
     }
 
     drawScale(ctx, current_zoom);
-    for (let elt = 0; elt < particles.length; elt++) {
-        for (let elt2 = elt+1; elt2 < particles.length; elt2++) {
-            if (ballsTouching(particles[elt], particles[elt2])){
-                pen_res_bb(particles[elt], particles[elt2]);
-                coll_res_bb(particles[elt], particles[elt2])
+    //iterating on balls
+    for (let elt = 0; elt < balls.length; elt++) {
+        for (let elt2 = elt+1; elt2 < balls.length; elt2++) {
+            if (ballsTouching(balls[elt], balls[elt2])){
+                pen_res_bb(balls[elt], balls[elt2]);
+                coll_res_bb(balls[elt], balls[elt2])
             }
         }
-        particles[elt].draw(ctx, current_zoom);
-        particles[elt].update(friction);
-        
+        balls[elt].draw(ctx, current_zoom);
+        balls[elt].update(friction);  
     }
+
+    //iterating on walls
+    for (let w = 0; w < walls.length; w++) {
+        walls[w].draw(ctx, current_zoom);
+    }
+
+
+
     requestAnimationFrame(mainLoop);
 }
 requestAnimationFrame(mainLoop);

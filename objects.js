@@ -116,10 +116,10 @@ class Wall{
         this.end = new Vector(x_end, y_end);
     }
 
-    drawWall(){
+    draw(ctx, zoom){
         ctx.beginPath();
-        ctx.moveTo(this.start.x, this.start.y);
-        ctx.lineTo(this.end.x, this.end.y);
+        ctx.moveTo(this.start.x * zoom, this.start.y * zoom);
+        ctx.lineTo(this.end.x * zoom, this.end.y * zoom);
         ctx.strokeStyle = "black";
         ctx.stroke();
         ctx.closePath();
