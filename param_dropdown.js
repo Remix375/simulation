@@ -92,3 +92,18 @@ const dropDownParam = (nameId) => {
         selected_obj = false;
     }
 }
+
+
+
+
+//add object to scene by clicking
+canvas.addEventListener("click", function(e) {
+    const localX = e.clientX - e.target.offsetLeft;
+    const localY = e.clientY - e.target.offsetTop;
+
+
+    if (selected_obj === "ball_obj_param") {
+        let data = input_data["ball"]
+        balls.push(new Circle(parseInt(data["size"], 10), localX / current_zoom, localY / current_zoom, 0, 0, 0, 0, parseInt(data["mass"], 10), data["color"]))
+    }
+})

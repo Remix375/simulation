@@ -2,7 +2,7 @@
 
 let balls = [];
 let walls = [];
-
+let magnets = [];
 
 
 walls.push(new Wall(100, 150, 20, 40));
@@ -23,8 +23,22 @@ balls.push(controled);
 const b = new Circle(40, 100, 100, 0, 0, 0, 0, 10, 'blue')
 balls.push(b);
 
+
+
+const mag = new Magnet(200, 200, 10, 30);
+magnets.push(mag);
+
+
+
+
+
+
+
 //boolean variables - if true, ball moves in the direction
 let LEFT, UP, RIGHT, DOWN;
+
+
+
 
 document.addEventListener('keydown', function(e){
     if(e.keyCode === 37){
@@ -87,12 +101,7 @@ canvas.addEventListener("wheel", (event) => {
 
 
 
-canvas.addEventListener("click", function(e) {
-    const localX = e.clientX - e.target.offsetLeft;
-    const localY = e.clientY - e.target.offsetTop;
 
-    balls.push(new Circle(20, localX / current_zoom, localY / current_zoom, 0, 0, 0, 0, 20, "red"));
-})
 
 
 function clearDead() {
@@ -173,6 +182,10 @@ const mainLoop = () => {
         walls[w].draw(ctx, current_zoom);
     }
 
+    console.log(magnets);
+    for (let m=0; m< magnets.length; m++) {
+        magnets[m].draw(ctx, current_zoom);
+    }
 
 
     requestAnimationFrame(mainLoop);

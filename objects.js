@@ -131,6 +131,30 @@ class Wall{
 }
 
 
+class Magnet {
+    constructor(x, y, strength, size) {
+        this.pos = new Vector(x, y);
+        this.strength = strength;
+        this.size = size;
+    }
+
+
+    draw(ctx, zoom) {
+        ctx.beginPath();
+        ctx.fillStyle = "red";
+        ctx.arc(this.pos.x * zoom, this.pos.y * zoom, this.size * zoom, Math.PI / 2, (3/2) * Math.PI, false);
+        ctx.fill();
+        ctx.closePath()
+        ctx.beginPath()
+        ctx.fillStyle = "white";
+        ctx.arc(this.pos.x * zoom, this.pos.y * zoom, this.size * zoom, (3/2) * Math.PI, Math.PI/2, false);
+        ctx.fill();
+        ctx.closePath()
+    }
+}
+
+
+
 function drawScale(ctx, zoom) {
     ctx.fillRect(20, canvas.clientHeight - 20, 100 * zoom, 4);
     ctx.fillRect(20, canvas.clientHeight - 30, 2, 24);
