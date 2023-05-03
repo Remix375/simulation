@@ -34,7 +34,7 @@ class Vector{
         }
     }
 
-    drawVec(start_x, start_y, n, color){
+    draw(start_x, start_y, n, color){
         ctx.beginPath();
         ctx.moveTo(start_x, start_y);
         ctx.lineTo(start_x + this.x * n, start_y + this.y * n);
@@ -50,7 +50,7 @@ class Vector{
 
 //circles are define with a radius, position, velocity, acceleration, mass and color
 class Circle {
-    constructor(radius, posX, posY, speedX, speedY, accX, accY, mass, color) {
+    constructor(radius, posX, posY, speedX, speedY, accX, accY, mass, movable) {
         this.size = radius;
 
         this.pos = new Vector(posX, posY);
@@ -73,7 +73,9 @@ class Circle {
             this.inv_mass = 1 / this.mass;
         }
 
-        this.color = color;
+
+
+        this.movable = movable;
 
         this.dead = false;
 
@@ -89,15 +91,6 @@ class Circle {
     }
 
 
-    draw(ctx, zoom) {
-        ctx.beginPath();
-        ctx.fillStyle = this.color;
-        ctx.arc(this.pos.x * zoom, this.pos.y * zoom, this.size * zoom, 0, Math.PI * 2, false);
-        ctx.fill();
-    }
-
-    
-
     update(friction) {
         this.pos = this.pos.add(this.vel);
 
@@ -109,8 +102,46 @@ class Circle {
     }
 }
 
+class Ball extends Circle {
+    constructor(radius, posX, posY, speedX, speedY, accX, accY, mass, color, movable) {
+        super(radius, posX, posY, speedX, speedY, accX, accY, mass, movable);
+        this.color = color;
+    }
+
+    draw(ctx, zoom) {
+        ctx.beginPath();
+        ctx.fillStyle = this.color;
+        ctx.arc(this.pos.x * zoom, this.pos.y * zoom, this.size * zoom, 0, Math.PI * 2, false);
+        ctx.fill();
+    }
+
+}
+
+
+
+class Magnet extends Circle{
+    constructor(radius, posX, posY, speedX, speedY, accX, accY, mass, strength, movable) {
+        super(radius, posX, posY, speedX, speedY, accX, accY, mass, movable);
+        this.strength = strength;
+    }
+
+
+    draw(ctx, zoom) {
+        ctx.beginPath();
+        ctx.fillStyle = "red";
+        ctx.arc(this.pos.x * zoom, this.pos.y * zoom, this.size * zoom, Math.PI / 2, (3/2) * Math.PI, false);
+        ctx.fill();
+        ctx.closePath()
+        ctx.beginPath()
+        ctx.fillStyle = "white";
+        ctx.arc(this.pos.x * zoom, this.pos.y * zoom, this.size * zoom, (3/2) * Math.PI, Math.PI/2, false);
+        ctx.fill();
+        ctx.closePath()
+    }
+}
+
 //Walls are line segments between two points
-class Wall{
+class Wall {
     constructor(x_start, y_start, x_end, y_end){
         this.start = new Vector(x_start, y_start);
         this.end = new Vector(x_end, y_end);
@@ -131,27 +162,7 @@ class Wall{
 }
 
 
-class Magnet {
-    constructor(x, y, strength, size) {
-        this.pos = new Vector(x, y);
-        this.strength = strength;
-        this.size = size;
-    }
 
-
-    draw(ctx, zoom) {
-        ctx.beginPath();
-        ctx.fillStyle = "red";
-        ctx.arc(this.pos.x * zoom, this.pos.y * zoom, this.size * zoom, Math.PI / 2, (3/2) * Math.PI, false);
-        ctx.fill();
-        ctx.closePath()
-        ctx.beginPath()
-        ctx.fillStyle = "white";
-        ctx.arc(this.pos.x * zoom, this.pos.y * zoom, this.size * zoom, (3/2) * Math.PI, Math.PI/2, false);
-        ctx.fill();
-        ctx.closePath()
-    }
-}
 
 
 

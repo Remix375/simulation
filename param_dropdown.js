@@ -104,6 +104,6 @@ canvas.addEventListener("click", function(e) {
 
     if (selected_obj === "ball_obj_param") {
         let data = input_data["ball"]
-        balls.push(new Circle(parseInt(data["size"], 10), localX / current_zoom, localY / current_zoom, 0, 0, 0, 0, parseInt(data["mass"], 10), data["color"]))
+        balls.push(new Ball(parseInt(data["size"], 10), localX / current_zoom, localY / current_zoom, 0, 0, 0, 0, parseInt(data["mass"], 10), data["color"]))
     }
 })

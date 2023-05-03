@@ -1,8 +1,10 @@
-
-
+//circle has balls and magnets
+let circles = [];
 let balls = [];
-let walls = [];
 let magnets = [];
+
+let walls = [];
+
 
 
 walls.push(new Wall(100, 150, 20, 40));
@@ -17,17 +19,20 @@ let timeCount = 0;
 
 const friction = 0.1;
 
-const controled = new Circle(20, 0, 0, 0, 0, 0, 0, 40, "green")
+const controled = new Ball(20, 0, 0, 0, 0, 0, 0, 40, "green", true)
 balls.push(controled);
+circles.push(controled);
 
-const b = new Circle(40, 100, 100, 0, 0, 0, 0, 10, 'blue')
+const b = new Ball(40, 100, 100, 0, 0, 0, 0, 10, 'blue', true)
 balls.push(b);
+circles.push(b);
+console.log(b);
 
 
 
-const mag = new Magnet(200, 200, 10, 30);
-magnets.push(mag);
-
+const magnet = new Magnet(40, 200, 200, 0, 0, 0, 0, 10, 10, true);
+magnets.push(magnet);
+circles.push(magnet)
 
 
 
@@ -166,15 +171,16 @@ const mainLoop = () => {
 
     drawScale(ctx, current_zoom);
     //iterating on balls
-    for (let elt = 0; elt < balls.length; elt++) {
-        for (let elt2 = elt+1; elt2 < balls.length; elt2++) {
-            if (ballsTouching(balls[elt], balls[elt2])){
-                pen_res_bb(balls[elt], balls[elt2]);
-                coll_res_bb(balls[elt], balls[elt2])
+    for (let elt = 0; elt < circles.length; elt++) {
+        for (let elt2 = elt+1; elt2 < circles.length; elt2++) {
+            if (ballsTouching(circles[elt], circles[elt2])){
+                pen_res_bb(circles[elt], circles[elt2]);
+                coll_res_bb(circles[elt], circles[elt2])
             }
         }
-        balls[elt].draw(ctx, current_zoom);
-        balls[elt].update(friction);  
+        circles[elt].draw(ctx, current_zoom);
+        circles[elt].update(friction);
+        circles[elt].acc = new Vector(0, 0);
     }
 
     //iterating on walls
@@ -182,9 +188,13 @@ const mainLoop = () => {
         walls[w].draw(ctx, current_zoom);
     }
 
-    console.log(magnets);
-    for (let m=0; m< magnets.length; m++) {
-        magnets[m].draw(ctx, current_zoom);
+
+    //iterating on magnets
+    for (let m=0; m < magnets.length; m++) {
+        for (let b = 0; b < balls.length; b++) {
+            let vect = magnets[m].pos.subtr(balls[b].pos);
+            balls[b].acc = balls[b].acc.add(vect.unit().mult(magnets[m].strength/(balls[b].mass * vect.mag())));
+        }
     }
 
 
