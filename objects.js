@@ -50,7 +50,7 @@ class Vector{
 
 //circles are define with a radius, position, velocity, acceleration, mass and color
 class Circle {
-    constructor(radius, posX, posY, speedX, speedY, accX, accY, mass, movable) {
+    constructor(radius, posX, posY, speedX, speedY, accX, accY, mass) {
         this.size = radius;
 
         this.pos = new Vector(posX, posY);
@@ -69,13 +69,11 @@ class Circle {
 
         if (this.mass === 0){
             this.inv_mass = 0;
+            this.immovable = true;
         } else {
             this.inv_mass = 1 / this.mass;
+            this.immovable = false;
         }
-
-
-
-        this.movable = movable;
 
         this.dead = false;
 
@@ -92,6 +90,9 @@ class Circle {
 
 
     update(friction) {
+        if (this.immovable) {
+            return;
+        }
         this.pos = this.pos.add(this.vel);
 
         this.vel = this.vel.add(this.acc).mult(1-friction);
@@ -103,8 +104,8 @@ class Circle {
 }
 
 class Ball extends Circle {
-    constructor(radius, posX, posY, speedX, speedY, accX, accY, mass, color, movable) {
-        super(radius, posX, posY, speedX, speedY, accX, accY, mass, movable);
+    constructor(radius, posX, posY, speedX, speedY, accX, accY, mass, color) {
+        super(radius, posX, posY, speedX, speedY, accX, accY, mass);
         this.color = color;
     }
 
@@ -120,8 +121,8 @@ class Ball extends Circle {
 
 
 class Magnet extends Circle{
-    constructor(radius, posX, posY, speedX, speedY, accX, accY, mass, strength, movable) {
-        super(radius, posX, posY, speedX, speedY, accX, accY, mass, movable);
+    constructor(radius, posX, posY, speedX, speedY, accX, accY, mass, strength) {
+        super(radius, posX, posY, speedX, speedY, accX, accY, mass);
         this.strength = strength;
     }
 

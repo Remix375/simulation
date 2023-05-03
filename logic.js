@@ -19,18 +19,18 @@ let timeCount = 0;
 
 const friction = 0.1;
 
-const controled = new Ball(20, 0, 0, 0, 0, 0, 0, 40, "green", true)
+const controled = new Ball(20, 0, 0, 0, 0, 0, 0, 40, "green")
 balls.push(controled);
 circles.push(controled);
 
-const b = new Ball(40, 100, 100, 0, 0, 0, 0, 10, 'blue', true)
+const b = new Ball(40, 100, 100, 0, 0, 0, 0, 10, 'blue')
 balls.push(b);
 circles.push(b);
 console.log(b);
 
 
 
-const magnet = new Magnet(40, 200, 200, 0, 0, 0, 0, 10, 10, true);
+const magnet = new Magnet(40, 200, 200, 0, 0, 0, 0, 0, 100);
 magnets.push(magnet);
 circles.push(magnet)
 
