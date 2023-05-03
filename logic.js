@@ -144,7 +144,6 @@ function coll_res_bb(b1, b2){
 const mainLoop = () => {
     ctx.canvas.width = window.innerWidth * 0.6;
     ctx.canvas.height = window.innerHeight * 0.7;
-    console.log(balls)
 
 
     timeCount += 1
