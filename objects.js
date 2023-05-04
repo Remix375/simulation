@@ -141,6 +141,35 @@ class Magnet extends Circle{
     }
 }
 
+class Generator {
+    constructor(posX, posY, radius, mass, color, time) {
+        this.pos = new Vector(posX, posY);
+        this.size = radius;
+        this.mass = mass;
+        this.color = color;
+        this.timeMax = time * 60;
+        this.currentTime = 0
+    }
+
+
+    update() {
+        if (this.currentTime == this.timeMax) {
+            let gen_ball = new Ball(this.size, this.pos.x + Math.random(), this.pos.y + Math.random(), 0, 0, 0, 0, this.mass, this.color);
+            balls.push(gen_ball);
+            circles.push(gen_ball);
+            this.currentTime = 0;
+        }
+        this.currentTime += 1
+    }
+
+    draw(ctx, zoom) {
+        ctx.beginPath();
+        ctx.fillStyle = "black";
+        ctx.fillRect((this.pos.x - (1/2) * this.size) * zoom, (this.pos.y - (1/2) * this.size) * zoom, this.size * zoom, this.size * zoom);
+        ctx.closePath();
+    }
+}
+
 //Walls are line segments between two points
 class Wall {
     constructor(x_start, y_start, x_end, y_end){

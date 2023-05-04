@@ -3,6 +3,8 @@ let circles = [];
 let balls = [];
 let magnets = [];
 
+let generators = [];
+
 let walls = [];
 
 
@@ -23,20 +25,7 @@ const controled = new Ball(20, 0, 0, 0, 0, 0, 0, 40, "green")
 balls.push(controled);
 circles.push(controled);
 
-const b = new Ball(40, 100, 100, 0, 0, 0, 0, 10, 'blue')
-balls.push(b);
-circles.push(b);
-console.log(b);
-
-
-
-const magnet = new Magnet(40, 200, 200, 0, 0, 0, 0, 0, 100);
-magnets.push(magnet);
-circles.push(magnet)
-
-
-
-
+let paused = false;
 
 
 //boolean variables - if true, ball moves in the direction
@@ -169,6 +158,14 @@ const mainLoop = () => {
         clearDead();
     }
 
+
+    //iterating on generators
+    for (let g = 0; g < generators.length; g++) {
+        generators[g].update();
+        generators[g].draw(ctx, current_zoom);
+    }
+
+    console.log(balls);
     drawScale(ctx, current_zoom);
     //iterating on balls
     for (let elt = 0; elt < circles.length; elt++) {
@@ -198,7 +195,10 @@ const mainLoop = () => {
     }
 
 
-    requestAnimationFrame(mainLoop);
+
+    if (!paused) {
+        requestAnimationFrame(mainLoop);
+    }
 }
 requestAnimationFrame(mainLoop);
 
