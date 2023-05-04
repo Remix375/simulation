@@ -105,6 +105,13 @@ function clearDead() {
             replacement.push(balls[elt])
         }
     }
+    r2 = [];
+    for (let e = 0; e < circles.length; e++) {
+        if (!circles[e].isdead) {
+            r2.push(circles[e]);
+        }
+    }
+    circles = r2;
     balls = replacement;
 }
 
@@ -165,7 +172,7 @@ const mainLoop = () => {
         generators[g].draw(ctx, current_zoom);
     }
 
-    console.log(balls);
+
     drawScale(ctx, current_zoom);
     //iterating on balls
     for (let elt = 0; elt < circles.length; elt++) {
@@ -209,3 +216,12 @@ requestAnimationFrame(mainLoop);
 
 
 
+function pause () {
+    console.log("dfd")
+    if (paused) {
+        paused = false;
+        mainLoop();
+    } else {
+        paused = true;
+    }
+}
