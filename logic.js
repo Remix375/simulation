@@ -203,6 +203,7 @@ const mainLoop = () => {
     timeCount += 1
     ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight)
     act(controled)
+
     //remove elements not in frame every 5 seconds
     //if 60fps
     if (timeCount % 300 == 0) {
@@ -212,7 +213,9 @@ const mainLoop = () => {
 
     //iterating on generators
     for (let g = 0; g < generators.length; g++) {
-        generators[g].update();
+        if (!paused) {
+            generators[g].update();
+        }
         generators[g].draw(ctx, current_zoom);
     }
 
@@ -227,15 +230,18 @@ const mainLoop = () => {
             }
         }
         circles[elt].draw(ctx, current_zoom);
-        circles[elt].update(friction);
-        circles[elt].acc = new Vector(0, 0);
+
+        //paused condition
+        if (!paused) {
+            circles[elt].update(friction);
+            circles[elt].acc = new Vector(0, 0);
+        }
     }
 
     //iterating on walls
     for (let w = 0; w < walls.length; w++) {
         for (let b = 0; b < circles.length; b++) {
             if (coll_det_bw(circles[b], walls[w])) {
-                console.log("df")
                 pen_res_bw(circles[b], walls[w]);
                 coll_res_bw(circles[b], walls[w]);
             }
@@ -246,18 +252,20 @@ const mainLoop = () => {
 
 
     //iterating on magnets
-    for (let m=0; m < magnets.length; m++) {
-        for (let b = 0; b < balls.length; b++) {
-            let vect = magnets[m].pos.subtr(balls[b].pos);
-            balls[b].acc = balls[b].acc.add(vect.unit().mult(magnets[m].strength/(balls[b].mass * vect.mag())));
+    if (!paused) {
+        for (let m=0; m < magnets.length; m++) {
+            for (let b = 0; b < balls.length; b++) {
+                let vect = magnets[m].pos.subtr(balls[b].pos);
+                balls[b].acc = balls[b].acc.add(vect.unit().mult(magnets[m].strength/(balls[b].mass * vect.mag())));
+            }
         }
     }
 
 
 
-    if (!paused) {
-        requestAnimationFrame(mainLoop);
-    }
+
+    requestAnimationFrame(mainLoop);
+
 }
 requestAnimationFrame(mainLoop);
 
