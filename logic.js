@@ -19,7 +19,7 @@ const ctx = canvas.getContext("2d");
 
 let timeCount = 0;
 
-const friction = 0.1;
+const friction = 0.2;
 
 const controled = new Ball(20, 0, 0, 0, 0, 0, 0, 40, "green")
 balls.push(controled);
@@ -117,10 +117,38 @@ function clearDead() {
 
 
 
+//returns with the closest point on a line segment to a given point
+function closestPointBW(b1, w1){
+    let ballToWallStart = w1.start.subtr(b1.pos);
+    if(Vector.dot(w1.wallUnit(), ballToWallStart) > 0){
+        return w1.start;
+    }
+
+    let wallEndToBall = b1.pos.subtr(w1.end);
+    if(Vector.dot(w1.wallUnit(), wallEndToBall) > 0){
+        return w1.end;
+    }
+
+    let closestDist = Vector.dot(w1.wallUnit(), ballToWallStart);
+    let closestVect = w1.wallUnit().mult(closestDist);
+    return w1.start.subtr(closestVect);
+}
+
+
+//collision detection between 2 balls
 function ballsTouching(b1, b2) {
     return (b1.size + b2.size >= b1.pos.subtr(b2.pos).mag())
 }
 
+//collision detection between ball and wall
+function coll_det_bw(b1, w1){
+    let ballToClosest = closestPointBW(b1, w1).subtr(b1.pos);
+    if (ballToClosest.mag() <= b1.size){
+        return true;
+    }
+}
+
+//penetration resolution if 2 balls are inside each other
 function pen_res_bb(b1, b2){
     let dist = b1.pos.subtr(b2.pos);
     let pen_depth = b1.size + b2.size - dist.mag();
@@ -129,6 +157,13 @@ function pen_res_bb(b1, b2){
     b2.pos = b2.pos.add(pen_res.mult(-b2.inv_mass));
 }
 
+//penetration resolution between ball and wall
+function pen_res_bw(b1, w1){
+    let penVect = b1.pos.subtr(closestPointBW(b1, w1));
+    b1.pos = b1.pos.add(penVect.unit().mult(b1.size-penVect.mag()));
+}
+
+//effect of collision of 2 balls
 function coll_res_bb(b1, b2){
     let normal = b1.pos.subtr(b2.pos).unit();
     let relVel = b1.vel.subtr(b2.vel);
@@ -148,6 +183,15 @@ function coll_res_bb(b1, b2){
     b2.vel = b2.vel.add(impulseVec.mult(-b2.inv_mass));
 }
 
+
+//collision response between ball and wall
+function coll_res_bw(b1, w1){
+    let normal = b1.pos.subtr(closestPointBW(b1, w1)).unit();
+    let sepVel = Vector.dot(b1.vel, normal);
+    let new_sepVel = -sepVel;
+    let vsep_diff = sepVel - new_sepVel;
+    b1.vel = b1.vel.add(normal.mult(-vsep_diff));
+}
 
 
 
@@ -189,7 +233,15 @@ const mainLoop = () => {
 
     //iterating on walls
     for (let w = 0; w < walls.length; w++) {
+        for (let b = 0; b < circles.length; b++) {
+            if (coll_det_bw(circles[b], walls[w])) {
+                console.log("df")
+                pen_res_bw(circles[b], walls[w]);
+                coll_res_bw(circles[b], walls[w]);
+            }
+        }
         walls[w].draw(ctx, current_zoom);
+
     }
 
 

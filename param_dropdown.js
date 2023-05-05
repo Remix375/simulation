@@ -202,7 +202,7 @@ function create_generator_html() {
     const time_input = document.createElement("input");
 
     time_input.type = "number";
-    time_input.value = input_data["generator"]["mass"];
+    time_input.value = input_data["generator"]["time"];
     time_input.onchange = function () {changeValue('generator', 'time', time_input)};
 
     time_div.appendChild(time_h)
@@ -223,6 +223,7 @@ function create_generator_html() {
 
 const creation_fun = {"ball_obj_param": create_ball_html, "magnet_obj_param": create_magnet_html, "generator_obj_param": create_generator_html};
 const dropDownParam = (nameId) => {
+    console.log(input_data);
     if (selected_obj === false) {
         document.getElementById(nameId).appendChild(creation_fun[nameId]())
         selected_obj = nameId;

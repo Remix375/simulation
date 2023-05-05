@@ -175,6 +175,9 @@ class Wall {
     constructor(x_start, y_start, x_end, y_end){
         this.start = new Vector(x_start, y_start);
         this.end = new Vector(x_end, y_end);
+
+
+        this.wallVect = this.end.subtr(this.start);
     }
 
     draw(ctx, zoom){
@@ -189,6 +192,8 @@ class Wall {
     wallUnit(){
         return this.end.subtr(this.start).unit();
     }
+
+
 }
 
 
