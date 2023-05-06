@@ -8,9 +8,6 @@ let generators = [];
 let walls = [];
 
 
-
-walls.push(new Wall(100, 150, 20, 40));
-
 let current_zoom = 1;
 
 
@@ -21,70 +18,9 @@ let timeCount = 0;
 
 const friction = 0.2;
 
-const controled = new Ball(20, 0, 0, 0, 0, 0, 0, 40, "green")
-balls.push(controled);
-circles.push(controled);
 
 let paused = false;
 
-
-//boolean variables - if true, ball moves in the direction
-let LEFT, UP, RIGHT, DOWN;
-
-
-
-
-document.addEventListener('keydown', function(e){
-    if(e.keyCode === 37){
-        LEFT = true;
-    }
-    if(e.keyCode === 38){
-        UP = true;
-    }
-    if(e.keyCode === 39){
-        RIGHT = true;
-    }
-    if(e.keyCode === 40){
-        DOWN = true;
-    }
-});
-
-document.addEventListener('keyup', function(e){
-    if(e.keyCode === 37){
-        LEFT = false;
-    }
-    if(e.keyCode === 38){
-        UP = false;
-    }
-    if(e.keyCode === 39){
-        RIGHT = false;
-    }
-    if(e.keyCode === 40){
-        DOWN = false;
-    }
-});
-
-function act(b){
-    //if true, the accelertion component gets a certain value
-    if(LEFT){
-        b.acc.x = -1;
-    }
-    if(UP){
-        b.acc.y = -1;
-    }
-    if(RIGHT){
-        b.acc.x = 1;
-    }
-    if(DOWN){
-        b.acc.y = 1;
-    }
-    if(!UP && !DOWN){
-        b.acc.y = 0;
-    }
-    if(!RIGHT && !LEFT){
-        b.acc.x = 0;
-    }
-}
 
 
 
