@@ -135,7 +135,10 @@ function coll_res_bb(b1, b2){
     let impulse = vsep_diff / (b1.inv_mass + b2.inv_mass);
     let impulseVec = normal.mult(impulse);
 
+    
     b1.vel = b1.vel.add(impulseVec.mult(b1.inv_mass)).mult(parseFloat(input_data['scene']['elasticity']));
+    console.log(b1.vel);
+    console.log(b2.vel.mag());
     b2.vel = b2.vel.add(impulseVec.mult(-b2.inv_mass)).mult(parseFloat(input_data['scene']['elasticity']));
 }
 
@@ -181,8 +184,9 @@ const mainLoop = () => {
     for (let elt = 0; elt < circles.length; elt++) {
         for (let elt2 = elt+1; elt2 < circles.length; elt2++) {
             if (ballsTouching(circles[elt], circles[elt2])){
+                coll_res_bb(circles[elt], circles[elt2]);
                 pen_res_bb(circles[elt], circles[elt2]);
-                coll_res_bb(circles[elt], circles[elt2])
+                
             }
         }
         circles[elt].draw(ctx, current_zoom);
@@ -212,8 +216,7 @@ const mainLoop = () => {
         for (let m=0; m < magnets.length; m++) {
             for (let b = 0; b < balls.length; b++) {
                 let vect = magnets[m].pos.subtr(balls[b].pos);
-                let acceleration = balls[b].acc.add(vect.unit().mult(magnets[m].strength/(balls[b].mass * vect.mag())));
-                console.log(acceleration);
+                let acceleration = balls[b].acc.add(vect.unit().mult(magnets[m].strength/(balls[b].mass * ((vect.mag()) ** 2))));
                 balls[b].addAcc(acceleration.x, acceleration.y);
             }
         }
@@ -222,7 +225,6 @@ const mainLoop = () => {
 
     //if currently placing a wall
     if (placing_wall) {
-        console.log(placing_wall);
         placing_wall.setEnd(current_x / current_zoom, current_y/ current_zoom);
         placing_wall.draw(ctx, current_zoom);
     }

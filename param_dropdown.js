@@ -6,10 +6,13 @@
 const input_data = {"ball": {"size": '15', "mass": '5', "color": 'black'}, 
                     "magnet": {"size": "15", "mass": "0", "strength": "100"},
                     "generator": {"size": "30", "mass": "5", "color": "black", "time": "5"},
-                    "scene": {"gravity": "9.8", "friction": "0.01", "elasticity": "0.99"}
+                    "scene": {"gravity": "0", "friction": "0.01", "elasticity": "0.95"}
                 };
 
 
+document.getElementById("gravity_scene_param").getElementsByTagName("input")[0].value = input_data["scene"]["gravity"];
+document.getElementById("friction_scene_param").getElementsByTagName("input")[0].value = input_data["scene"]["friction"];
+document.getElementById("elasticity_scene_param").getElementsByTagName("input")[0].value = input_data["scene"]["elasticity"];
 
 let selected_obj = false;
 
