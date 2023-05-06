@@ -78,13 +78,13 @@ body {
 
 
 
-#objects {
+#objects, #scene{
     margin-left: 15%;
     font-family: 'Roboto Mono', monospace;
 }
 
 
-#objects h3 {
+h3 {
     color: white;
     font-size: 2rem;
     display: inline;
@@ -92,18 +92,21 @@ body {
 }
 
 
-#objects h5 {
+h5 {
     color: white;
     display: inline;
     font-size: 1.3rem;
 }
-#objects input {
+input {
     width: 20%;
     height: 1.3rem;
 }
 
 .chevron-down {
     vertical-align: middle;
+    color: #ffffff; 
+    display: inline-block;
+    transform: rotate(-90deg);
 }
 
 .subsettings {
@@ -131,3 +134,5 @@ body {
     width: 100%;
     background-color: var(--púrprl);
 }
+
+

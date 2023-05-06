@@ -5,7 +5,9 @@
 
 const input_data = {"ball": {"size": '15', "mass": '5', "color": 'black'}, 
                     "magnet": {"size": "15", "mass": "0", "strength": "100"},
-                    "generator": {"size": "30", "mass": "5", "color": "black", "time": "5"}};
+                    "generator": {"size": "30", "mass": "5", "color": "black", "time": "5"},
+                    "scene": {"gravity": "1", "friction": "0.1", "elasticity": "0.9"}
+                };
 
 
 
@@ -18,6 +20,17 @@ let placing_wall = false;
 
 const changeValue = (obj, par, that) => {
     input_data[obj][par] = that.value;
+}
+
+
+const change_param = (o) => {
+    if (o === "objects") {
+        document.getElementById("objects").style.display = "block";
+        document.getElementById("scene").style.display = "none";
+    } else {
+        document.getElementById("scene").style.display = "block";
+        document.getElementById("objects").style.display = "none";
+    }
 }
 
 
@@ -258,15 +271,37 @@ const creation_fun= {"ball_obj_param": create_ball_html,
 
 
 const dropDownParam = (nameId) => {
-    console.log(input_data);
+    placing_wall = false;
     if (selected_obj === false) {
-        document.getElementById(nameId).appendChild(creation_fun[nameId]())
+        let child = creation_fun[nameId]()
+        let chevron = document.getElementById(nameId).getElementsByClassName("chevron-down")[0];
+
+        child.style.opacity = "0";
+        document.getElementById(nameId).appendChild(child);
+
+        chevron.animate({transform: "rotate(0deg)"}, {duration: 200, fill: "forwards"});
+        child.animate({opacity: "1"}, {duration: 200, fill: "forwards"});
+
         selected_obj = nameId;
     } else if (selected_obj !== nameId) {
+        let chevron1 = document.getElementById(nameId).getElementsByClassName("chevron-down")[0];
+        let chevron2 = document.getElementById(selected_obj).getElementsByClassName("chevron-down")[0];
+
+        let child = creation_fun[nameId]();
+
+        chevron1.animate({transform: "rotate(0deg)"}, {duration: 200, fill: "forwards"})
+        chevron2.animate({transform: "rotate(-90deg)"}, {duration: 200, fill: "forwards"});
+
         document.getElementById(selected_obj).getElementsByClassName("subsettings")[0].remove();
         document.getElementById(nameId).appendChild(creation_fun[nameId]())
+
+        child.animate({opacity: "1"}, {duration: 200, fill: "forwards"});
+
+
         selected_obj = nameId;
     } else {
+        let chevron = document.getElementById(nameId).getElementsByClassName("chevron-down")[0];
+        chevron.animate({transform: "rotate(-90deg)"}, {duration: 200, fill: "forwards"})
         document.getElementById(nameId).getElementsByClassName("subsettings")[0].remove();
         selected_obj = false;
     }
@@ -298,11 +333,11 @@ canvas.addEventListener("click", function(e) {
         generators.push(n_g);
     } else if (selected_obj === "wall_obj_param") {
         if (placing_wall) {
-            placing_wall.setEnd(localX, localY);
+            placing_wall.setEnd(localX/current_zoom, localY/current_zoom);
             walls.push(placing_wall);
             placing_wall = false;
         } else {
-            placing_wall = new Wall(localX, localY, localX, localY);
+            placing_wall = new Wall(localX / current_zoom, localY/current_zoom, localX/current_zoom, localY/current_zoom);
         }
     }
 })

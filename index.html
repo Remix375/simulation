@@ -26,41 +26,63 @@
 
 
     <div id="page">
-        <div id="parameters">
+        <div id="parameters" >
             <div id="main">
                 <nav>
                     <ul>
-                        <li>Objects</li>
+                        <li onclick="change_param('objects')">Objects</li>
                         <hr>
-                        <li>Scene</li>
+                        <li onclick="change_param('scene')">Scene</li>
                     </ul>
                 </nav>
 
-                <div id="objects">
+                <div id="objects" >
                     <div id="ball_obj_param">
                         <div id="ball-title-menue" onclick="dropDownParam('ball_obj_param')">
-                            <i class="fa-solid fa-chevron-down chevron-down" style="color: #ffffff; display: inline-block;"></i>
+                            <i class="fa-solid fa-chevron-down chevron-down"></i>
                             <h3>Ball</h3>
                         </div>
                     </div>
                     <div id="magnet_obj_param">
                         <div id="magnet-title-menue" onclick="dropDownParam('magnet_obj_param')">
-                            <i class="fa-solid fa-chevron-down chevron-down" style="color: #ffffff; display: inline-block;"></i>
+                            <i class="fa-solid fa-chevron-down chevron-down" ></i>
                             <h3>Magnet</h3>
                         </div>
                     </div>
                     <div id="generator_obj_param">
                         <div id="generator-title-menue" onclick="dropDownParam('generator_obj_param')">
-                            <i class="fa-solid fa-chevron-down chevron-down" style="color: #ffffff; display: inline-block;"></i>
+                            <i class="fa-solid fa-chevron-down chevron-down"></i>
                             <h3>Generator</h3>
                         </div>
                     </div>
                     <div id="wall_obj_param">
                         <div id="wall-title-menue" onclick="dropDownParam('wall_obj_param')">
-                            <i class="fa-solid fa-chevron-down chevron-down" style="color: #ffffff; display: inline-block;"></i>
+                            <i class="fa-solid fa-chevron-down chevron-down"></i>
                             <h3>Wall</h3>
                         </div>
                     </div>
+
+                </div>
+
+
+                <div id="scene" style="display: none">
+                    <div id="gravity_scene_param">
+                        <h3>Gravity</h3>
+                        <input type="number" value = "1" onchange="changeValue('scene', 'gravity', this)">
+                    </div>
+
+                    <div id="friction_scene_param">
+                        <h3>Friction</h3>
+                        <input type="number" value="0.1" onchange="changeValue('scene', 'friction', this)">
+                    </div>
+
+                    <div id="elasticity_scene_param">
+                        <h3>Elasticity</h3>
+                        <input type="number" value="0.9" onchange="changeValue('scene', 'number', this)">
+                    </div>
+
+
+
 
                 </div>
 

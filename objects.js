@@ -58,12 +58,12 @@ class Circle {
         //speed given in meters per second
         //converted to pixels per 1/60 seconds
         //100 pixels is a meter
-        this.vel = new Vector(100*speedX/60, 100*speedY/60);
+        this.vel = new Vector(speedX/60, speedY/60);
 
         //acc given in meters per second^2
         //converted to pixels per 1/60 seconds ^2
         //100 pixels is a meter
-        this.acc = new Vector(100*accX/3600, 100*accY/3600);
+        this.acc = new Vector(accX/360, accY/360);
 
         this.mass = mass;
 

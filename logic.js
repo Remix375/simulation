@@ -14,9 +14,10 @@ let current_zoom = 1;
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
+let last_time = 0;
 let timeCount = 0;
 
-const friction = 0.2;
+const friction = 0;
 
 
 let paused = false;
@@ -26,18 +27,29 @@ let current_x = 0;
 let current_y = 0;
 
 
+let gravity = true;
+
+
+let fps = 0
+
 canvas.addEventListener('mousemove', (e) => {
     current_x = e.clientX - e.target.offsetLeft;
     current_y = e.clientY - e.target.offsetTop;
-    console.log(current_x, current_y);
 });
-  
+
 
 
 canvas.addEventListener("wheel", (event) => {
     current_zoom = Math.min(5, Math.max(0.1, current_zoom-1e-3 * event.deltaY))
 })
 
+
+const timer_frames = () => {
+    fps = timeCount - last_time;
+    last_time = timeCount;
+}
+
+setInterval(timer_frames, 1000);
 
 
 
@@ -125,8 +137,8 @@ function coll_res_bb(b1, b2){
     let impulse = vsep_diff / (b1.inv_mass + b2.inv_mass);
     let impulseVec = normal.mult(impulse);
 
-    b1.vel = b1.vel.add(impulseVec.mult(b1.inv_mass));
-    b2.vel = b2.vel.add(impulseVec.mult(-b2.inv_mass));
+    b1.vel = b1.vel.add(impulseVec.mult(b1.inv_mass)).mult(parseFloat(input_data['scene']['elasticity']));
+    b2.vel = b2.vel.add(impulseVec.mult(-b2.inv_mass)).mult(parseFloat(input_data['scene']['elasticity']));
 }
 
 
@@ -136,7 +148,7 @@ function coll_res_bw(b1, w1){
     let sepVel = Vector.dot(b1.vel, normal);
     let new_sepVel = -sepVel;
     let vsep_diff = sepVel - new_sepVel;
-    b1.vel = b1.vel.add(normal.mult(-vsep_diff));
+    b1.vel = b1.vel.add(normal.mult(-vsep_diff)).mult(parseFloat(input_data['scene']['elasticity']));
 }
 
 
@@ -179,8 +191,13 @@ const mainLoop = () => {
 
         //paused condition
         if (!paused) {
-            circles[elt].update(friction);
-            circles[elt].acc = new Vector(0, 0);
+            circles[elt].update(parseFloat(input_data['scene']['friction']));
+            if (gravity) {
+                circles[elt].acc = new Vector(0, parseFloat(input_data['scene']['gravity']));
+            }
+            else {
+                circles[elt].acc = new Vector(0, 0);
+            }
         }
     }
 
@@ -207,14 +224,19 @@ const mainLoop = () => {
         }
     }
 
-    console.log(placing_wall);
 
     //if currently placing a wall
     if (placing_wall) {
         console.log(placing_wall);
-        placing_wall.setEnd(current_x, current_y);
+        placing_wall.setEnd(current_x / current_zoom, current_y/ current_zoom);
         placing_wall.draw(ctx, current_zoom);
     }
+
+
+    //fps counter
+    ctx.font = "20px Arial";
+    ctx.fillText(`${fps}fps`, 0, 20);
+
 
     requestAnimationFrame(mainLoop);
 
@@ -229,7 +251,6 @@ requestAnimationFrame(mainLoop);
 
 
 function pause () {
-    console.log("dfd")
     if (paused) {
         paused = false;
         mainLoop();
