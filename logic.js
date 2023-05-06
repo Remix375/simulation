@@ -22,6 +22,16 @@ const friction = 0.2;
 let paused = false;
 
 
+let current_x = 0;
+let current_y = 0;
+
+
+canvas.addEventListener('mousemove', (e) => {
+    current_x = e.clientX - e.target.offsetLeft;
+    current_y = e.clientY - e.target.offsetTop;
+    console.log(current_x, current_y);
+});
+  
 
 
 canvas.addEventListener("wheel", (event) => {
@@ -136,9 +146,9 @@ const mainLoop = () => {
     ctx.canvas.height = window.innerHeight * 0.7;
 
 
+
     timeCount += 1
     ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight)
-    act(controled)
 
     //remove elements not in frame every 5 seconds
     //if 60fps
@@ -197,8 +207,14 @@ const mainLoop = () => {
         }
     }
 
+    console.log(placing_wall);
 
-
+    //if currently placing a wall
+    if (placing_wall) {
+        console.log(placing_wall);
+        placing_wall.setEnd(current_x, current_y);
+        placing_wall.draw(ctx, current_zoom);
+    }
 
     requestAnimationFrame(mainLoop);
 

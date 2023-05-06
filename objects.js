@@ -180,6 +180,11 @@ class Wall {
         this.wallVect = this.end.subtr(this.start);
     }
 
+
+    setEnd(x, y) {
+        this.end = new Vector(x, y);
+    }
+
     draw(ctx, zoom){
         ctx.beginPath();
         ctx.moveTo(this.start.x * zoom, this.start.y * zoom);

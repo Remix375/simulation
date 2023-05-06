@@ -12,6 +12,8 @@ const input_data = {"ball": {"size": '15', "mass": '5', "color": 'black'},
 let selected_obj = false;
 
 
+let placing_wall = false;
+
 
 
 const changeValue = (obj, par, that) => {
@@ -221,7 +223,40 @@ function create_generator_html() {
 
 
 
-const creation_fun = {"ball_obj_param": create_ball_html, "magnet_obj_param": create_magnet_html, "generator_obj_param": create_generator_html};
+
+//generates html for wall dropdown
+function create_wall_html() {
+    const wall_html = document.createElement("div")
+    wall_html.classList.add("subsettings");
+    wall_html.id = "wall_settings";
+    
+    
+    const inf_div = document.createElement("div");
+    inf_div.classList.add("param_perso")
+
+    const inf_h = document.createElement("h5");
+    inf_h.innerHTML = "Placing wall"
+
+
+    inf_div.appendChild(inf_h)
+
+    //all together
+    wall_html.appendChild(inf_div);
+
+    return wall_html;
+}
+
+
+
+
+const creation_fun= {"ball_obj_param": create_ball_html, 
+                    "magnet_obj_param": create_magnet_html, 
+                    "generator_obj_param": create_generator_html,
+                    "wall_obj_param": create_wall_html};
+
+
+
+
 const dropDownParam = (nameId) => {
     console.log(input_data);
     if (selected_obj === false) {
@@ -261,5 +296,13 @@ canvas.addEventListener("click", function(e) {
         let data = input_data["generator"];
         let n_g = new Generator(localX/current_zoom, localY/current_zoom, parseFloat(data["size"]), parseFloat(data["mass"]), data["color"], parseFloat(data["time"]));
         generators.push(n_g);
+    } else if (selected_obj === "wall_obj_param") {
+        if (placing_wall) {
+            placing_wall.setEnd(localX, localY);
+            walls.push(placing_wall);
+            placing_wall = false;
+        } else {
+            placing_wall = new Wall(localX, localY, localX, localY);
+        }
     }
 })
