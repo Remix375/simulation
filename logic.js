@@ -27,8 +27,6 @@ let current_x = 0;
 let current_y = 0;
 
 
-let gravity = true;
-
 
 let fps = 0
 
@@ -192,12 +190,7 @@ const mainLoop = () => {
         //paused condition
         if (!paused) {
             circles[elt].update(parseFloat(input_data['scene']['friction']));
-            if (gravity) {
-                circles[elt].acc = new Vector(0, parseFloat(input_data['scene']['gravity']));
-            }
-            else {
-                circles[elt].acc = new Vector(0, 0);
-            }
+            circles[elt].setAcc(0, parseFloat(input_data['scene']['gravity']))
         }
     }
 
@@ -219,7 +212,9 @@ const mainLoop = () => {
         for (let m=0; m < magnets.length; m++) {
             for (let b = 0; b < balls.length; b++) {
                 let vect = magnets[m].pos.subtr(balls[b].pos);
-                balls[b].acc = balls[b].acc.add(vect.unit().mult(magnets[m].strength/(balls[b].mass * vect.mag())));
+                let acceleration = balls[b].acc.add(vect.unit().mult(magnets[m].strength/(balls[b].mass * vect.mag())));
+                console.log(acceleration);
+                balls[b].addAcc(acceleration.x, acceleration.y);
             }
         }
     }

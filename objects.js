@@ -58,12 +58,12 @@ class Circle {
         //speed given in meters per second
         //converted to pixels per 1/60 seconds
         //100 pixels is a meter
-        this.vel = new Vector(speedX/60, speedY/60);
+        this.vel = new Vector(10 * speedX/6,  10 * speedY/6);
 
         //acc given in meters per second^2
         //converted to pixels per 1/60 seconds ^2
         //100 pixels is a meter
-        this.acc = new Vector(accX/360, accY/360);
+        this.acc = new Vector(accX/36, accY/36);
 
         this.mass = mass;
 
@@ -83,6 +83,16 @@ class Circle {
     get isdead() {
         return this.dead
     }
+
+    setAcc(accX, accY) {
+        this.acc = new Vector(accX / 36, accY / 36) 
+    }
+
+    addAcc(accX, accY) {
+        this.acc = this.acc.add(new Vector(accX / 36, accY / 36));
+    }
+
+
 
     pr() {
         return [this.size, this.pos.x, this.pos.y, this.vel.x, this.vel.y, this.acc.x, this.acc.y, this.mass, this.color]
@@ -123,7 +133,7 @@ class Ball extends Circle {
 class Magnet extends Circle{
     constructor(radius, posX, posY, speedX, speedY, accX, accY, mass, strength) {
         super(radius, posX, posY, speedX, speedY, accX, accY, mass);
-        this.strength = strength;
+        this.strength = strength* 100;
     }
 
 
