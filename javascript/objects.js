@@ -75,14 +75,14 @@ class Circle {
             this.immovable = false;
         }
 
-        this.dead = false;
+        this.isdead = false;
 
         this.ismagnet = magnet;
     }
 
 
-    get isdead() {
-        return this.dead
+    die() {
+        this.isdead = true;
     }
 
     setAcc(accX, accY) {
@@ -135,7 +135,15 @@ class Ball extends Circle {
 class Magnet extends Circle{
     constructor(radius, posX, posY, speedX, speedY, accX, accY, mass, strength) {
         super(radius, posX, posY, speedX, speedY, accX, accY, mass, true);
-        this.strength = strength* 1000;
+        this.strength = strength;
+
+        this.isdead = false;
+
+    }
+
+
+    die() {
+        this.isdead = true;
     }
 
 
@@ -161,6 +169,13 @@ class Generator {
         this.color = color;
         this.timeMax = time * 60;
         this.currentTime = 0
+
+        this.isdead = false;
+
+    }
+
+    die() {
+        this.isdead = true;
     }
 
 
@@ -190,6 +205,12 @@ class Wall {
 
 
         this.wallVect = this.end.subtr(this.start);
+
+        this.isdead = false;
+    }
+
+    die() {
+        this.isdead = true;
     }
 
 

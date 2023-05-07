@@ -47,23 +47,29 @@ canvas.addEventListener("wheel", (event) => {
 
 
 
+function objIsDead(obj) {
+    return !obj.isdead;
+}
 
-
-function clearDead() {
-    replacement = []
-    for (let elt = 0; elt <balls.length; elt++) {
-        if (!balls[elt].isdead) {
-            replacement.push(balls[elt])
-        }
+function clearDead(type) {
+    if (type === "All") {
+        circles = circles.filter(objIsDead);
+        balls = balls.filter(objIsDead);
+        magnets = magnets.filter(objIsDead);
+        generators = generators.filter(objIsDead);
+        walls = walls.filter(objIsDead);
     }
-    r2 = [];
-    for (let e = 0; e < circles.length; e++) {
-        if (!circles[e].isdead) {
-            r2.push(circles[e]);
-        }
+    if (type === "Ball") {
+        circles = circles.filter(objIsDead);
+        balls = balls.filter(objIsDead);
+    } else if (type === "Magnet") {
+        magnets = magnets.filter(objIsDead);
+        circles = circles.filter(objIsDead);
+    } else if (type === "Generator") {
+        generators = generators.filter(objIsDead);
+    } else if (type === "Walls") {
+        walls = walls.filter(objIsDead);
     }
-    circles = r2;
-    balls = replacement;
 }
 
 
@@ -116,7 +122,6 @@ function pen_res_bb(b1, b2){
         b1.pos = b1.pos.add(pen_res.mult(b1.inv_mass));
         b2.pos = b2.pos.add(pen_res.mult(-b2.inv_mass));
     }
-    console.log(magnets);
 }
 
 //penetration resolution between ball and wall
@@ -225,7 +230,7 @@ const mainLoop = () => {
         for (let m=0; m < magnets.length; m++) {
             for (let b = 0; b < balls.length; b++) {
                 let vect = magnets[m].pos.subtr(balls[b].pos);
-                let acceleration_c = vect.unit().mult(magnets[m].strength/(balls[b].mass * (vect.mag() ** 2)));
+                let acceleration_c = vect.unit().mult(1000 * magnets[m].strength/(balls[b].mass * (vect.mag() ** 2)));
                 balls[b].addAcc(acceleration_c.x, acceleration_c.y);
             }
         }

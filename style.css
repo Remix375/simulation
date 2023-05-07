@@ -88,7 +88,10 @@ body {
 #objects, #scene{
     margin-left: 15%;
     font-family: 'Roboto Mono', monospace;
+    height: 50%;
 }
+
+
 
 
 h3 {
@@ -121,7 +124,7 @@ input {
 }
 
 .param_perso {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 
 
@@ -169,4 +172,29 @@ input {
 .title_menue:hover {
     cursor: pointer;
     color: grey;
+}
+
+
+#object_selected {
+    height: 300px;
+    width: 80%;
+    border: 3px solid white;
+
+}
+
+#object_selected h3 {
+    display: block;
+    margin: 0px;
+}
+
+#select_title {
+    text-align: center;
+}
+
+
+#select_obj_param button {
+    height: 30px;
+}
+#select_obj_param button :hover {
+    cursor: pointer;
 }

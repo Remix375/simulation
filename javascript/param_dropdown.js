@@ -6,7 +6,7 @@
 const input_data = {"ball": {"size": '15', "mass": '5', "color": 'black'}, 
                     "magnet": {"size": "15", "mass": "0", "strength": "100"},
                     "generator": {"size": "30", "mass": "5", "color": "black", "time": "5"},
-                    "scene": {"gravity": "9.8", "friction": "0.01", "elasticity": "0.95"}
+                    "scene": {"gravity": "0", "friction": "0.01", "elasticity": "0.95"}
                 };
 
 
@@ -20,17 +20,43 @@ let selected_obj = false;
 let placing_wall = false;
 
 
+let selected_in_scene = false;
+
 
 const changeValue = (obj, par, that) => {
-    input_data[obj][par] = that.value;
+    if (!selected_in_scene){
+        input_data[obj][par] = that.value;
+    } else {
+        if (par === "size") {
+            selected_in_scene.size = parseFloat(that.value);
+        } else if (par === "mass") {
+            if (that.value === "0"){
+                selected_in_scene.immovable = true;
+                selected_in_scene.inv_mass = 0;
+            } else {
+                selected_in_scene.immovable = false;
+                selected_in_scene.inv_mass = 1 / parseFloat(that.value);
+            }
+            selected_in_scene.mass = parseFloat(that.value);
+        } else if (par === "color") {
+            selected_in_scene.color = parseFloat(that.value);
+        } else if (par === "strength") {
+            selected_in_scene.strength = parseFloat(that.value);
+        } else if (par === "time") {
+            selected_in_scene.time = parseFloat(that.value);
+        }
+    }
 }
 
 
 const change_param = (o) => {
+    selected_obj = false;
     if (o === "objects") {
         document.getElementById("objects").style.display = "block";
         document.getElementById("scene").style.display = "none";
     } else {
+        selected_in_scene = false;
+        placing_wall = false;
         document.getElementById("scene").style.display = "block";
         document.getElementById("objects").style.display = "none";
     }
@@ -38,7 +64,7 @@ const change_param = (o) => {
 
 
 
-function create_ball_html() {
+function create_ball_html(data_) {
     const ball_html = document.createElement("div")
     ball_html.classList.add("subsettings");
     ball_html.id = "ball_settings";
@@ -51,7 +77,7 @@ function create_ball_html() {
     const size_input = document.createElement("input");
 
     size_input.type = "number";
-    size_input.value = input_data["ball"]["size"];
+    size_input.value = data_["size"];
     size_input.onchange = function() {changeValue('ball', 'size', size_input)};
 
     size_div.appendChild(size_h)
@@ -66,7 +92,7 @@ function create_ball_html() {
     const mass_input = document.createElement("input");
 
     mass_input.type = "number";
-    mass_input.value = input_data["ball"]["mass"];
+    mass_input.value = data_["mass"];
     mass_input.onchange = function () {changeValue('ball', 'mass', mass_input)};
 
     mass_div.appendChild(mass_h)
@@ -82,7 +108,7 @@ function create_ball_html() {
     const color_input = document.createElement("input");
 
     color_input.type = "color";
-    color_input.value = input_data["ball"]["color"];
+    color_input.value = data_["color"];
     color_input.onchange = function () {changeValue('ball', 'color', color_input)};
 
     color_div.appendChild(color_h)
@@ -98,7 +124,7 @@ function create_ball_html() {
 
 
 
-function create_magnet_html() {
+function create_magnet_html(data_) {
     const magnet_html = document.createElement("div")
     magnet_html.classList.add("subsettings");
     magnet_html.id = "magnet_settings";
@@ -111,7 +137,7 @@ function create_magnet_html() {
     const size_input = document.createElement("input");
 
     size_input.type = "number";
-    size_input.value = input_data["magnet"]["size"];
+    size_input.value = data_["size"];
     size_input.onchange = function() {changeValue('magnet', 'size', size_input)};
 
     size_div.appendChild(size_h)
@@ -126,7 +152,7 @@ function create_magnet_html() {
     const mass_input = document.createElement("input");
 
     mass_input.type = "number";
-    mass_input.value = input_data["magnet"]["mass"];
+    mass_input.value = data_["mass"];
     mass_input.onchange = function () {changeValue('magnet', 'mass', mass_input)};
 
     mass_div.appendChild(mass_h)
@@ -142,7 +168,7 @@ function create_magnet_html() {
     const strength_input = document.createElement("input");
 
     strength_input.type = "number";
-    strength_input.value = input_data["magnet"]["strength"];
+    strength_input.value = data_["strength"];
     strength_input.onchange = function () {changeValue('magnet', 'strength', strength_input)};
 
     strength_div.appendChild(strength_h)
@@ -158,7 +184,7 @@ function create_magnet_html() {
 
 
 //generates html for generator dropdown
-function create_generator_html() {
+function create_generator_html(data_) {
     const generator_html = document.createElement("div")
     generator_html.classList.add("subsettings");
     generator_html.id = "generator_settings";
@@ -172,7 +198,7 @@ function create_generator_html() {
     const size_input = document.createElement("input");
 
     size_input.type = "number";
-    size_input.value = input_data["generator"]["size"];
+    size_input.value = data_["size"];
     size_input.onchange = function() {changeValue('generator', 'size', size_input)};
 
     size_div.appendChild(size_h)
@@ -187,7 +213,7 @@ function create_generator_html() {
     const mass_input = document.createElement("input");
 
     mass_input.type = "number";
-    mass_input.value = input_data["generator"]["mass"];
+    mass_input.value = data_["mass"];
     mass_input.onchange = function () {changeValue('generator', 'mass', mass_input)};
 
     mass_div.appendChild(mass_h)
@@ -203,7 +229,7 @@ function create_generator_html() {
     const color_input = document.createElement("input");
 
     color_input.type = "color";
-    color_input.value = input_data["generator"]["color"];
+    color_input.value = data_["color"];
     color_input.onchange = function () {changeValue('generator', 'color', color_input)};
 
     color_div.appendChild(color_h)
@@ -220,7 +246,7 @@ function create_generator_html() {
     const time_input = document.createElement("input");
 
     time_input.type = "number";
-    time_input.value = input_data["generator"]["time"];
+    time_input.value = data_["time"];
     time_input.onchange = function () {changeValue('generator', 'time', time_input)};
 
     time_div.appendChild(time_h)
@@ -241,7 +267,7 @@ function create_generator_html() {
 
 
 //generates html for wall dropdown
-function create_wall_html() {
+function create_wall_html(data_) {
     const wall_html = document.createElement("div")
     wall_html.classList.add("subsettings");
     wall_html.id = "wall_settings";
@@ -262,21 +288,28 @@ function create_wall_html() {
     return wall_html;
 }
 
+function create_select_html() {
+    const select_html = document.createElement("div");
+    select_html.id = "object_selected";
+    return select_html;
+}
 
 
 
-const creation_fun= {"ball_obj_param": create_ball_html, 
-                    "magnet_obj_param": create_magnet_html, 
-                    "generator_obj_param": create_generator_html,
-                    "wall_obj_param": create_wall_html};
+
+const creation_fun= {"ball_obj_param": [create_ball_html, input_data["ball"]], 
+                    "magnet_obj_param": [create_magnet_html, input_data["magnet"]], 
+                    "generator_obj_param": [create_generator_html, input_data["generator"]],
+                    "wall_obj_param": [create_wall_html, []]};
 
 
 
 
 const dropDownParam = (nameId) => {
     placing_wall = false;
+    selected_in_scene = false;
     if (selected_obj === false) {
-        let child = creation_fun[nameId]()
+        let child = creation_fun[nameId][0](creation_fun[nameId][1])
         let chevron = document.getElementById(nameId).getElementsByClassName("chevron-down")[0];
 
         child.style.opacity = "0";
@@ -286,20 +319,34 @@ const dropDownParam = (nameId) => {
         child.animate({opacity: "1"}, {duration: 200, fill: "forwards"});
 
         selected_obj = nameId;
+    } else if (selected_obj === "select") {
+        document.getElementById("select_txt").style.color = "white";
+
+        document.getElementById("object_selected").remove();
+        selected_obj = nameId;
+
+
+        let child = creation_fun[nameId][0](creation_fun[nameId][1])
+        let chevron = document.getElementById(nameId).getElementsByClassName("chevron-down")[0];
+
+        child.style.opacity = "0";
+        document.getElementById(nameId).appendChild(child);
+
+        chevron.animate({transform: "rotate(0deg)"}, {duration: 200, fill: "forwards"});
+        child.animate({opacity: "1"}, {duration: 200, fill: "forwards"});
     } else if (selected_obj !== nameId) {
         let chevron1 = document.getElementById(nameId).getElementsByClassName("chevron-down")[0];
         let chevron2 = document.getElementById(selected_obj).getElementsByClassName("chevron-down")[0];
 
-        let child = creation_fun[nameId]();
+        let child = creation_fun[nameId][0](creation_fun[nameId][1]);
 
         chevron1.animate({transform: "rotate(0deg)"}, {duration: 200, fill: "forwards"})
         chevron2.animate({transform: "rotate(-90deg)"}, {duration: 200, fill: "forwards"});
 
         document.getElementById(selected_obj).getElementsByClassName("subsettings")[0].remove();
-        document.getElementById(nameId).appendChild(creation_fun[nameId]())
+        document.getElementById(nameId).appendChild(child)
 
         child.animate({opacity: "1"}, {duration: 200, fill: "forwards"});
-
 
         selected_obj = nameId;
     } else {
@@ -310,6 +357,78 @@ const dropDownParam = (nameId) => {
     }
 }
 
+
+const select = () => {
+    if (selected_obj === "select") {
+        return;
+    } else {
+        if (selected_obj) {
+            let chevron = document.getElementById(selected_obj).getElementsByClassName("chevron-down")[0];
+            chevron.animate({transform: "rotate(-90deg)"}, {duration: 200, fill: "forwards"})
+            document.getElementById(selected_obj).getElementsByClassName("subsettings")[0].remove();
+        }
+
+        let html = create_select_html()
+        document.getElementById("select_obj_param").appendChild(html);
+        document.getElementById("select_txt").style.color = "blue"
+        
+
+        selected_obj = "select";
+    }
+}
+
+
+const fill_select_html = (obj) => {
+    const past = document.getElementById("selected_data_container");
+    if (past) {
+        document.getElementById("selected_data_container").remove();
+    }
+
+    const container = document.createElement('div');
+    container.id = "selected_data_container";
+
+
+    type = obj.constructor.name;
+    
+
+    let html;
+
+    const title_div = document.createElement("div");
+    title_div.id = "select_title"
+    const title_h3 = document.createElement("h3");
+    title_h3.innerHTML = type;
+    title_div.appendChild(title_h3); 
+
+    if (type === "Ball") {
+        const param = {"size": obj.size.toString(), "mass": obj.mass.toString(), "color": obj.color};
+        html = create_ball_html(param);
+    } else if (type === "Magnet") {
+        const param = {"size": obj.size.toString(), "mass": obj.mass.toString(), "strength": obj.strength.toString()}
+        html = create_magnet_html(param)
+    } else if (type === "Generator") {
+        const param = {"size": obj.size.toString(), "mass": obj.mass.toString(), "color": obj.color, "time": obj.timeMax.toString()}
+        html = create_generator_html(param);
+    } else if (type === "Wall") {
+        html = document.createElement("div");
+    }
+
+
+    const remove_elt = document.createElement("button");
+    remove_elt.id = "document_remove_button";
+    remove_elt.innerHTML = "Remove Element";
+    remove_elt.addEventListener("click", function() {
+        obj.die();
+        clearDead(type);
+        document.getElementById("selected_data_container").remove();
+    })
+    html.appendChild(remove_elt)
+
+
+    container.appendChild(title_div);
+    container.appendChild(html);
+
+    document.getElementById("object_selected").appendChild(container);
+}
 
 
 
@@ -334,13 +453,44 @@ canvas.addEventListener("click", function(e) {
         let data = input_data["generator"];
         let n_g = new Generator(localX/current_zoom, localY/current_zoom, parseFloat(data["size"]), parseFloat(data["mass"]), data["color"], parseFloat(data["time"]));
         generators.push(n_g);
-    } else if (selected_obj === "wall_obj_param") {
+    } if (selected_obj === "wall_obj_param") {
         if (placing_wall) {
             placing_wall.setEnd(localX/current_zoom, localY/current_zoom);
             walls.push(placing_wall);
             placing_wall = false;
         } else {
             placing_wall = new Wall(localX / current_zoom, localY/current_zoom, localX/current_zoom, localY/current_zoom);
+        }
+    } else if (selected_obj === "select") {
+        selected_in_scene = false;
+        let curs_ball = new Ball(3 / current_zoom, localX, localY, 0, 0, 0, 0, 0, 0);
+        for (let w = 0; w < walls.length; w++) {
+            let cursToClosest = closestPointBW(curs_ball, walls[w]).subtr(curs_ball.pos);
+            if (cursToClosest.mag() <= curs_ball.size){
+                selected_in_scene = walls[w];
+                break;
+            }
+        }
+        for (let c = 0; c < balls.length; c++) {
+            if (balls[c].size > balls[c].pos.subtr(new Vector(localX, localY)).mag()) {
+                selected_in_scene = balls[c];
+                break;
+            }
+        }
+        for (let m = 0; m < magnets.length; m++) {
+            if (magnets[m].size > magnets[m].pos.subtr(new Vector(localX, localY)).mag()) {
+                selected_in_scene = magnets[m];
+                break;
+            }
+        }
+        for (let g = 0; g < generators.length; g++) {
+            if (generators[g].size > generators[g].pos.subtr(new Vector(localX, localY)).mag()) {
+                selected_in_scene = generators[g];
+                break;
+            }
+        }
+        if (selected_in_scene) {
+            fill_select_html(selected_in_scene);
         }
     }
 })
