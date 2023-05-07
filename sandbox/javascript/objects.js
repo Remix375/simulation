@@ -167,7 +167,7 @@ class Generator {
         this.size = radius;
         this.mass = mass;
         this.color = color;
-        this.timeMax = time * 60;
+        this.timeMax = time;
         this.currentTime = 0
 
         this.isdead = false;
@@ -179,8 +179,8 @@ class Generator {
     }
 
 
-    update() {
-        if (this.currentTime == this.timeMax) {
+    update(fps) {
+        if (this.currentTime >= this.timeMax * fps) {
             let gen_ball = new Ball(this.size, this.pos.x + Math.random(), this.pos.y + Math.random(), 0, 0, 0, 0, this.mass, this.color);
             balls.push(gen_ball);
             circles.push(gen_ball);

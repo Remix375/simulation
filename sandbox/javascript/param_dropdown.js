@@ -24,6 +24,7 @@ let selected_in_scene = false;
 
 
 const changeValue = (obj, par, that) => {
+    console.log(selected_in_scene);
     if (!selected_in_scene){
         input_data[obj][par] = that.value;
     } else {
@@ -39,18 +40,17 @@ const changeValue = (obj, par, that) => {
             }
             selected_in_scene.mass = parseFloat(that.value);
         } else if (par === "color") {
-            selected_in_scene.color = parseFloat(that.value);
+            selected_in_scene.color = that.value;
         } else if (par === "strength") {
             selected_in_scene.strength = parseFloat(that.value);
         } else if (par === "time") {
-            selected_in_scene.time = parseFloat(that.value);
+            selected_in_scene.timeMax = parseFloat(that.value);
         }
     }
 }
 
 
 const change_param = (o) => {
-    selected_obj = false;
     if (o === "objects") {
         document.getElementById("objects").style.display = "block";
         document.getElementById("scene").style.display = "none";

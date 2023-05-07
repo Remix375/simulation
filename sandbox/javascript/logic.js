@@ -51,7 +51,7 @@ function objIsDead(obj) {
     return !obj.isdead;
 }
 
-function clearDead(type) {
+function clearDead(type = "All") {
     if (type === "All") {
         circles = circles.filter(objIsDead);
         balls = balls.filter(objIsDead);
@@ -67,7 +67,7 @@ function clearDead(type) {
         circles = circles.filter(objIsDead);
     } else if (type === "Generator") {
         generators = generators.filter(objIsDead);
-    } else if (type === "Walls") {
+    } else if (type === "Wall") {
         walls = walls.filter(objIsDead);
     }
 }
@@ -186,7 +186,7 @@ const mainLoop = () => {
     //iterating on generators
     for (let g = 0; g < generators.length; g++) {
         if (!paused) {
-            generators[g].update();
+            generators[g].update(fps);
         }
         generators[g].draw(ctx, current_zoom);
     }
@@ -261,7 +261,9 @@ const mainLoop = () => {
 //requestAnimationFrame(mainLoop);
 requestAnimationFrame(mainLoop);
 
-
+function accelerate() {
+    mainLoop();
+}
 
 
 
