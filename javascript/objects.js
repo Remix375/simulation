@@ -135,7 +135,7 @@ class Ball extends Circle {
 class Magnet extends Circle{
     constructor(radius, posX, posY, speedX, speedY, accX, accY, mass, strength) {
         super(radius, posX, posY, speedX, speedY, accX, accY, mass, true);
-        this.strength = strength* 100;
+        this.strength = strength* 1000;
     }
 
 

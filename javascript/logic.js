@@ -136,14 +136,10 @@ function coll_res_bb(b1, b2){
     let impulseVec = normal.mult(impulse);
 
     //not sure
-    if (b1.ismagnet || b2.ismagnet){
-        b1.vel = b1.vel.add(impulseVec.mult(b1.inv_mass)).mult(0.3);
-        b2.vel = b2.vel.add(impulseVec.mult(-b2.inv_mass)).mult(0.3);
-    }
-    else {
-        b1.vel = b1.vel.add(impulseVec.mult(b1.inv_mass)).mult(parseFloat(input_data['scene']['elasticity']));
-        b2.vel = b2.vel.add(impulseVec.mult(-b2.inv_mass)).mult(parseFloat(input_data['scene']['elasticity']));
-    }
+
+    b1.vel = b1.vel.add(impulseVec.mult(b1.inv_mass)).mult(parseFloat(input_data['scene']['elasticity']));
+    b2.vel = b2.vel.add(impulseVec.mult(-b2.inv_mass)).mult(parseFloat(input_data['scene']['elasticity']));
+    
 
 }
 
@@ -170,10 +166,10 @@ const mainLoop = () => {
 
     //remove elements not in frame every 5 seconds
     //if 60fps
-    if (timeCount % 300 == 0) {
+    /*if (timeCount % 300 == 0) {
         clearDead();
     }
-
+    */
 
     //iterating on generators
     for (let g = 0; g < generators.length; g++) {
@@ -184,7 +180,8 @@ const mainLoop = () => {
     }
 
 
-    drawScale(ctx, current_zoom);
+    
+
     //iterating on balls
     for (let elt = 0; elt < circles.length; elt++) {
         for (let elt2 = elt+1; elt2 < circles.length; elt2++) {
@@ -199,6 +196,7 @@ const mainLoop = () => {
         //paused condition
         if (!paused) {
             circles[elt].update(parseFloat(input_data['scene']['friction']), fps);
+
             circles[elt].setAcc(0, parseFloat(input_data['scene']['gravity']))
         }
     }
@@ -221,8 +219,8 @@ const mainLoop = () => {
         for (let m=0; m < magnets.length; m++) {
             for (let b = 0; b < balls.length; b++) {
                 let vect = magnets[m].pos.subtr(balls[b].pos);
-                let acceleration = balls[b].acc.add(vect.unit().mult(magnets[m].strength/(balls[b].mass * (vect.mag() ** 2))));
-                balls[b].addAcc(acceleration.x, acceleration.y);
+                let acceleration_c = vect.unit().mult(magnets[m].strength/(balls[b].mass * (vect.mag() ** 2)));
+                balls[b].addAcc(acceleration_c.x, acceleration_c.y);
             }
         }
     }
@@ -238,6 +236,8 @@ const mainLoop = () => {
     //fps counter
     ctx.font = "20px Arial";
     ctx.fillText(`${fps}fps`, 0, 20);
+
+    drawScale(ctx, current_zoom);
 
 
     requestAnimationFrame(mainLoop);
