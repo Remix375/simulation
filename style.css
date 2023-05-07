@@ -18,13 +18,19 @@ body {
 #page {
     display: flex;
     height: 100%;
+    width: 100%;
 }
 
 #parameters {
     height: 100%;
     width: 40%;
     background-color: var(--púrprl);
+    flex-shrink: 0;
+}
 
+#game_window {
+    width: 60%;
+    flex-shrink: 0;
 }
 
 #parameters #main {

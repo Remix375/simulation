@@ -219,6 +219,7 @@ class Wall {
 
 
 function drawScale(ctx, zoom) {
+    ctx.color = "black";
     ctx.fillRect(20, canvas.clientHeight - 20, 100 * zoom, 4);
     ctx.fillRect(20, canvas.clientHeight - 30, 2, 24);
     ctx.fillRect(20 + 100*zoom, canvas.clientHeight - 30, 2, 24);
