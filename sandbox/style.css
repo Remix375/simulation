@@ -51,15 +51,18 @@ body {
     text-align: center;
 
     padding: 0;
-    padding-top: 5%;
+
     margin-top: 0;
+    padding-top: 5%;
+    height: 100%;
 }
 
 #parameters li {
     vertical-align:middle;
     display: inline-block;
     padding: 5%;
-    font-size: 3rem;
+    height: 40%;
+    font-size: 2rem;
     font-family: 'Roboto Mono', monospace;
 }
 
@@ -83,14 +86,26 @@ body {
 
 }
 
+#main nav {
+    height: 20%;
+}
 
 
 #objects, #scene{
     margin-left: 15%;
     font-family: 'Roboto Mono', monospace;
     height: 50%;
+    overflow-y: scroll;
+    height: 70%;
+
+    /*no scroll bar */
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
 }
 
+#objects::-webkit-scrollbar, #scene::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}
 
 
 
