@@ -50,7 +50,7 @@ class Vector{
 
 //circles are define with a radius, position, velocity, acceleration, mass and color
 class Circle {
-    constructor(radius, posX, posY, speedX, speedY, accX, accY, mass) {
+    constructor(radius, posX, posY, speedX, speedY, accX, accY, mass, magnet = false) {
         this.size = radius;
 
         this.pos = new Vector(posX, posY);
@@ -58,12 +58,12 @@ class Circle {
         //speed given in meters per second
         //converted to pixels per 1/60 seconds
         //100 pixels is a meter
-        this.vel = new Vector(10 * speedX/6,  10 * speedY/6);
+        this.vel = new Vector(speedX,  speedY);
 
         //acc given in meters per second^2
         //converted to pixels per 1/60 seconds ^2
         //100 pixels is a meter
-        this.acc = new Vector(accX/36, accY/36);
+        this.acc = new Vector(accX, accY);
 
         this.mass = mass;
 
@@ -77,6 +77,7 @@ class Circle {
 
         this.dead = false;
 
+        this.ismagnet = magnet;
     }
 
 
@@ -85,11 +86,11 @@ class Circle {
     }
 
     setAcc(accX, accY) {
-        this.acc = new Vector(accX / 36, accY / 36) 
+        this.acc = new Vector(accX, accY)
     }
 
     addAcc(accX, accY) {
-        this.acc = this.acc.add(new Vector(accX / 36, accY / 36));
+        this.acc = this.acc.add(new Vector(accX, accY));
     }
 
 
@@ -99,13 +100,14 @@ class Circle {
     }
 
 
-    update(friction) {
+    update(friction, fps) {
         if (this.immovable) {
             return;
         }
-        this.pos = this.pos.add(this.vel);
 
-        this.vel = this.vel.add(this.acc).mult(1-friction);
+        this.pos = this.pos.add(this.vel.mult(100/fps));
+
+        this.vel = this.vel.add(this.acc.mult(1/fps)).mult(1-friction);
 
         if (this.pos.y > canvas.clientHeight/0.1 + 50 || this.pos.y < -40 || this.pos.x > canvas.clientWidth/0.1 + 50 || this.pos.x < -40) {
             this.dead = true;
@@ -132,7 +134,7 @@ class Ball extends Circle {
 
 class Magnet extends Circle{
     constructor(radius, posX, posY, speedX, speedY, accX, accY, mass, strength) {
-        super(radius, posX, posY, speedX, speedY, accX, accY, mass);
+        super(radius, posX, posY, speedX, speedY, accX, accY, mass, true);
         this.strength = strength* 100;
     }
 

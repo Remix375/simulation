@@ -59,6 +59,7 @@ body {
 
 #parameters li:hover {
     cursor: pointer;
+    color: rgb(215, 223, 226)
 }
 #parameters li:active {
     color: rgb(147, 177, 189)
@@ -133,6 +134,33 @@ input {
     height: 30%;
     width: 100%;
     background-color: var(--púrprl);
+    display: flex;
+}
+
+#options div {
+    width: 30%;
+    height: 80%;
+    padding: 3%;
+}
+
+#options div button {
+    height: 100%;
+    width: 100%;
+    background-color: blue;
 }
 
 
+
+#options div button:hover {
+    cursor: pointer;
+
+}
+
+#options div button img {
+    height: 70%;
+}
+
+.title_menue:hover {
+    cursor: pointer;
+    color: grey;
+}

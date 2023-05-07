@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="objects.js" defer></script>
-    <script src="logic.js" defer></script>
-    <script src="param_dropdown.js" defer></script>
+    <script src="./javascript/objects.js" defer></script>
+    <script src="./javascript/logic.js" defer></script>
+    <script src="./javascript/param_dropdown.js" defer></script>
 
     <script src="https://kit.fontawesome.com/bfb86f04f2.js" crossorigin="anonymous"></script>
 
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="./media/favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
@@ -39,25 +39,25 @@
 
                 <div id="objects" >
                     <div id="ball_obj_param">
-                        <div id="ball-title-menue" onclick="dropDownParam('ball_obj_param')">
+                        <div id="ball-title-menue" class="title_menue" onclick="dropDownParam('ball_obj_param')">
                             <i class="fa-solid fa-chevron-down chevron-down"></i>
                             <h3>Ball</h3>
                         </div>
                     </div>
                     <div id="magnet_obj_param">
-                        <div id="magnet-title-menue" onclick="dropDownParam('magnet_obj_param')">
+                        <div id="magnet-title-menue" class="title_menue" onclick="dropDownParam('magnet_obj_param')">
                             <i class="fa-solid fa-chevron-down chevron-down" ></i>
                             <h3>Magnet</h3>
                         </div>
                     </div>
                     <div id="generator_obj_param">
-                        <div id="generator-title-menue" onclick="dropDownParam('generator_obj_param')">
+                        <div id="generator-title-menue" class="title_menue" onclick="dropDownParam('generator_obj_param')">
                             <i class="fa-solid fa-chevron-down chevron-down"></i>
                             <h3>Generator</h3>
                         </div>
                     </div>
                     <div id="wall_obj_param">
-                        <div id="wall-title-menue" onclick="dropDownParam('wall_obj_param')">
+                        <div id="wall-title-menue" class="title_menue" onclick="dropDownParam('wall_obj_param')">
                             <i class="fa-solid fa-chevron-down chevron-down"></i>
                             <h3>Wall</h3>
                         </div>
@@ -95,8 +95,16 @@
 
             <div id="options">
                 <div>
-                    <button onclick="pause()">PAUSE</button>
+                    <button onclick="reset()">
+                        <img src="./media/reset.png">
+                    </button>
                 </div>
+                <div>
+                    <button onclick="pause()">
+                        <img src="./media/bouton-jouer.png">
+                    </button>
+                </div>
+
             </div>
         </div>
 

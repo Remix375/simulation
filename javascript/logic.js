@@ -135,11 +135,16 @@ function coll_res_bb(b1, b2){
     let impulse = vsep_diff / (b1.inv_mass + b2.inv_mass);
     let impulseVec = normal.mult(impulse);
 
-    
-    b1.vel = b1.vel.add(impulseVec.mult(b1.inv_mass)).mult(parseFloat(input_data['scene']['elasticity']));
-    console.log(b1.vel);
-    console.log(b2.vel.mag());
-    b2.vel = b2.vel.add(impulseVec.mult(-b2.inv_mass)).mult(parseFloat(input_data['scene']['elasticity']));
+    //not sure
+    if (b1.ismagnet || b2.ismagnet){
+        b1.vel = b1.vel.add(impulseVec.mult(b1.inv_mass)).mult(0.3);
+        b2.vel = b2.vel.add(impulseVec.mult(-b2.inv_mass)).mult(0.3);
+    }
+    else {
+        b1.vel = b1.vel.add(impulseVec.mult(b1.inv_mass)).mult(parseFloat(input_data['scene']['elasticity']));
+        b2.vel = b2.vel.add(impulseVec.mult(-b2.inv_mass)).mult(parseFloat(input_data['scene']['elasticity']));
+    }
+
 }
 
 
@@ -193,7 +198,7 @@ const mainLoop = () => {
 
         //paused condition
         if (!paused) {
-            circles[elt].update(parseFloat(input_data['scene']['friction']));
+            circles[elt].update(parseFloat(input_data['scene']['friction']), fps);
             circles[elt].setAcc(0, parseFloat(input_data['scene']['gravity']))
         }
     }
@@ -216,7 +221,7 @@ const mainLoop = () => {
         for (let m=0; m < magnets.length; m++) {
             for (let b = 0; b < balls.length; b++) {
                 let vect = magnets[m].pos.subtr(balls[b].pos);
-                let acceleration = balls[b].acc.add(vect.unit().mult(magnets[m].strength/(balls[b].mass * ((vect.mag()) ** 2))));
+                let acceleration = balls[b].acc.add(vect.unit().mult(magnets[m].strength/(balls[b].mass * (vect.mag() ** 2))));
                 balls[b].addAcc(acceleration.x, acceleration.y);
             }
         }
@@ -245,7 +250,15 @@ requestAnimationFrame(mainLoop);
 
 
 
-
+function reset() {
+    circles = [];
+    balls = [];
+    magnets = [];
+    
+    generators = [];
+    
+    walls = [];
+}
 
 function pause () {
     if (paused) {
