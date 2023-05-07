@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./javascript/objects.js" defer></script>
+    <script src="./javascript/logic.js" defer></script>
+    <script src="./javascript/param_dropdown.js" defer></script>
+
+    <script src="https://kit.fontawesome.com/bfb86f04f2.js" crossorigin="anonymous"></script>
+
+    <link rel="shortcut icon" type="image/x-icon" href="./media/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <title>Simulation</title>
+</head>
+<body>
+    <div id="page">
+        <div id="parameters" >
+            <div id="main">
+                <nav>
+                    <ul>
+                        <li onclick="change_param('objects')">Objects</li>
+                        <hr>
+                        <li onclick="change_param('scene')">Scene</li>
+                    </ul>
+                </nav>
+
+                <div id="objects" >
+                    <div id="ball_obj_param">
+                        <div id="ball-title-menue" class="title_menue" onclick="dropDownParam('ball_obj_param')">
+                            <i class="fa-solid fa-chevron-down chevron-down"></i>
+                            <h3>Ball</h3>
+                        </div>
+                    </div>
+                    <div id="magnet_obj_param">
+                        <div id="magnet-title-menue" class="title_menue" onclick="dropDownParam('magnet_obj_param')">
+                            <i class="fa-solid fa-chevron-down chevron-down" ></i>
+                            <h3>Magnet</h3>
+                        </div>
+                    </div>
+                    <div id="generator_obj_param">
+                        <div id="generator-title-menue" class="title_menue" onclick="dropDownParam('generator_obj_param')">
+                            <i class="fa-solid fa-chevron-down chevron-down"></i>
+                            <h3>Generator</h3>
+                        </div>
+                    </div>
+                    <div id="wall_obj_param">
+                        <div id="wall-title-menue" class="title_menue" onclick="dropDownParam('wall_obj_param')">
+                            <i class="fa-solid fa-chevron-down chevron-down"></i>
+                            <h3>Wall</h3>
+                        </div>
+                    </div>
+                    <div id="select_obj_param">
+                        <div class = "title_menue" onclick="select()">
+                            <h3 id="select_txt">Select</h3>
+                        </div>
+                    
+                    </div>
+
+                </div>
+
+
+                <div id="scene" style="display: none">
+                    <div id="gravity_scene_param">
+                        <h3>Gravity</h3>
+                        <input type="number" onchange="changeValue('scene', 'gravity', this)">
+                    </div>
+
+                    <div id="friction_scene_param">
+                        <h3>Friction</h3>
+                        <input type="number" onchange="changeValue('scene', 'friction', this)">
+                    </div>
+
+                    <div id="elasticity_scene_param">
+                        <h3>Elasticity</h3>
+                        <input type="number" onchange="changeValue('scene', 'elasticity', this)">
+                    </div>
+
+
+
+
+                </div>
+
+            </div>
+        </div>
+
+        <div id="game_window">
+            <canvas id="canvas" width="800" height="500"></canvas>
+
+            <div id="options">
+                <div>
+                    <button onclick="reset()">
+                        <img src="./media/reset.png">
+                    </button>
+                </div>
+                <div>
+                    <button onclick="pause(this)">
+                        <img src="./media/bouton-pause.png">
+                    </button>
+                </div>
+                <div>
+                    <button onclick="accelerate()">
+                    Accelerate
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
