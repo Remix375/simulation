@@ -17,7 +17,6 @@ const ctx = canvas.getContext("2d");
 let last_time = 0;
 let timeCount = 0;
 
-const friction = 0;
 
 
 let paused = false;
@@ -154,6 +153,8 @@ function coll_res_bb(b1, b2){
 
     b1.vel = b1.vel.add(impulseVec.mult(b1.inv_mass)).mult(parseFloat(input_data['scene']['elasticity']));
     b2.vel = b2.vel.add(impulseVec.mult(-b2.inv_mass)).mult(parseFloat(input_data['scene']['elasticity']));
+
+
 }
 
 
@@ -163,9 +164,14 @@ function coll_res_bw(b1, w1){
     let sepVel = Vector.dot(b1.vel, normal);
     let new_sepVel = -sepVel;
     let vsep_diff = sepVel - new_sepVel;
-    b1.vel = b1.vel.add(normal.mult(-vsep_diff)).mult(parseFloat(input_data['scene']['elasticity']));
+    let val_to_add = normal.mult(-vsep_diff).mult(parseFloat(input_data['scene']['elasticity']));
+    b1.vel = b1.vel.add(val_to_add)
 }
 
+
+function compute_air_friction(b1, friction) {
+    return b1.vel.mult(-(friction * b1.size) / b1.mass)
+}
 
 
 const mainLoop = () => {
@@ -194,23 +200,7 @@ const mainLoop = () => {
 
     
 
-    //iterating on balls
-    for (let elt = 0; elt < circles.length; elt++) {
-        for (let elt2 = elt+1; elt2 < circles.length; elt2++) {
-            if (ballsTouching(circles[elt], circles[elt2])){
-                pen_res_bb(circles[elt], circles[elt2]);
-                coll_res_bb(circles[elt], circles[elt2]);
-            }
-        }
-        circles[elt].draw(ctx, current_zoom);
 
-        //paused condition
-        if (!paused) {
-            circles[elt].update(parseFloat(input_data['scene']['friction']), fps);
-
-            circles[elt].setAcc(0, parseFloat(input_data['scene']['gravity']))
-        }
-    }
 
     //iterating on walls
     for (let w = 0; w < walls.length; w++) {
@@ -221,7 +211,6 @@ const mainLoop = () => {
             }
         }
         walls[w].draw(ctx, current_zoom);
-
     }
 
 
@@ -230,7 +219,7 @@ const mainLoop = () => {
         for (let m=0; m < magnets.length; m++) {
             for (let b = 0; b < balls.length; b++) {
                 let vect = magnets[m].pos.subtr(balls[b].pos);
-                let acceleration_c = vect.unit().mult(1000 * magnets[m].strength/(balls[b].mass * (vect.mag() ** 2)));
+                let acceleration_c = vect.unit().mult(1000 * magnets[m].strength/(balls[b].mass * ((vect.mag()) ** 2)));
                 balls[b].addAcc(acceleration_c.x, acceleration_c.y);
             }
         }
@@ -241,6 +230,29 @@ const mainLoop = () => {
     if (placing_wall) {
         placing_wall.setEnd(current_x / current_zoom, current_y/ current_zoom);
         placing_wall.draw(ctx, current_zoom);
+    }
+
+    //iterating on balls
+    for (let elt = 0; elt < circles.length; elt++) {
+        for (let elt2 = elt+1; elt2 < circles.length; elt2++) {
+            if (ballsTouching(circles[elt], circles[elt2])){
+                pen_res_bb(circles[elt], circles[elt2]);
+                if (circles[elt].vel.mag() + circles[elt2].vel.mag() > 2){
+                    coll_res_bb(circles[elt], circles[elt2]);
+                }
+            }
+        }
+        circles[elt].draw(ctx, current_zoom);
+
+        //paused condition
+        if (!paused) {
+            circles[elt].update(fps);
+
+
+            circles[elt].setAcc(0, parseFloat(input_data['scene']['gravity']))
+            const airRes = compute_air_friction(circles[elt], parseFloat(input_data["scene"]["friction"]) );
+            circles[elt].addAcc(airRes.x, airRes.y);
+        }
     }
 
 

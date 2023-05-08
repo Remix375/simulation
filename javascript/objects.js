@@ -100,14 +100,14 @@ class Circle {
     }
 
 
-    update(friction, fps) {
+    update(fps) {
         if (this.immovable) {
             return;
         }
 
         this.pos = this.pos.add(this.vel.mult(100/fps));
 
-        this.vel = this.vel.add(this.acc.mult(1/fps)).mult(1-friction);
+        this.vel = this.vel.add(this.acc.mult(1/fps));
 
         if (this.pos.y > canvas.clientHeight/0.1 + 50 || this.pos.y < -40 || this.pos.x > canvas.clientWidth/0.1 + 50 || this.pos.x < -40) {
             this.dead = true;

@@ -6,7 +6,7 @@
 const input_data = {"ball": {"size": '15', "mass": '5', "color": 'black'}, 
                     "magnet": {"size": "15", "mass": "0", "strength": "100"},
                     "generator": {"size": "30", "mass": "5", "color": "black", "time": "5"},
-                    "scene": {"gravity": "0", "friction": "0.01", "elasticity": "0.95"}
+                    "scene": {"gravity": "9.8", "friction": "0.5", "elasticity": "0.9"}
                 };
 
 
