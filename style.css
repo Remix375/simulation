@@ -159,12 +159,14 @@ input {
     width: 100%;
     background-color: var(--púrprl);
     display: flex;
+    text-align: center;
 }
 
 #options div {
     width: 30%;
     height: 70%;
     padding: 3%;
+    display: inline-block;
 }
 
 #options div button {
