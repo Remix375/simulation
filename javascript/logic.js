@@ -42,10 +42,6 @@ canvas.addEventListener("wheel", (event) => {
 })
 
 
-
-
-
-
 function objIsDead(obj) {
     return !obj.isdead;
 }
@@ -198,20 +194,21 @@ const mainLoop = () => {
     }
 
 
-    
-
-
-
     //iterating on walls
     for (let w = 0; w < walls.length; w++) {
-        for (let b = 0; b < circles.length; b++) {
-            if (coll_det_bw(circles[b], walls[w])) {
-                pen_res_bw(circles[b], walls[w]);
-                coll_res_bw(circles[b], walls[w]);
+        //if not paused
+        //test collisions
+        if (!paused) {
+            for (let b = 0; b < circles.length; b++) {
+                if (coll_det_bw(circles[b], walls[w])) {
+                    pen_res_bw(circles[b], walls[w]);
+                    coll_res_bw(circles[b], walls[w]);
+                }
             }
-        }
+        }   
         walls[w].draw(ctx, current_zoom);
     }
+
 
 
     //iterating on magnets
@@ -234,25 +231,20 @@ const mainLoop = () => {
 
     //iterating on balls
     for (let elt = 0; elt < circles.length; elt++) {
-        for (let elt2 = elt+1; elt2 < circles.length; elt2++) {
-            if (ballsTouching(circles[elt], circles[elt2])){
-                pen_res_bb(circles[elt], circles[elt2]);
-                if (circles[elt].vel.mag() + circles[elt2].vel.mag() > 2){
+        //test collisions if not paused
+        if (!paused) {
+            for (let elt2 = elt+1; elt2 < circles.length; elt2++) {
+                if (ballsTouching(circles[elt], circles[elt2])){
+                    pen_res_bb(circles[elt], circles[elt2]);
                     coll_res_bb(circles[elt], circles[elt2]);
                 }
             }
-        }
-        circles[elt].draw(ctx, current_zoom);
-
-        //paused condition
-        if (!paused) {
             circles[elt].update(fps);
-
-
             circles[elt].setAcc(0, parseFloat(input_data['scene']['gravity']))
             const airRes = compute_air_friction(circles[elt], parseFloat(input_data["scene"]["friction"]) );
             circles[elt].addAcc(airRes.x, airRes.y);
         }
+        circles[elt].draw(ctx, current_zoom);
     }
 
 
