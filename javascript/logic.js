@@ -134,7 +134,7 @@ function coll_res_bb(b1, b2){
     let normal = b1.pos.subtr(b2.pos).unit();
     let relVel = b1.vel.subtr(b2.vel);
     let sepVel = Vector.dot(relVel, normal);
-    let new_sepVel = -sepVel;
+    let new_sepVel = -sepVel * parseFloat(input_data['scene']['elasticity'])
     
     let vsep_diff = new_sepVel - sepVel;
 
@@ -147,8 +147,8 @@ function coll_res_bb(b1, b2){
     }
     let impulseVec = normal.mult(impulse);
 
-    b1.vel = b1.vel.add(impulseVec.mult(b1.inv_mass)).mult(parseFloat(input_data['scene']['elasticity']));
-    b2.vel = b2.vel.add(impulseVec.mult(-b2.inv_mass)).mult(parseFloat(input_data['scene']['elasticity']));
+    b1.vel = b1.vel.add(impulseVec.mult(b1.inv_mass));
+    b2.vel = b2.vel.add(impulseVec.mult(-b2.inv_mass));
 
 
 }
@@ -158,9 +158,9 @@ function coll_res_bb(b1, b2){
 function coll_res_bw(b1, w1){
     let normal = b1.pos.subtr(closestPointBW(b1, w1)).unit();
     let sepVel = Vector.dot(b1.vel, normal);
-    let new_sepVel = -sepVel;
+    let new_sepVel = -sepVel * parseFloat(input_data['scene']['elasticity']);
     let vsep_diff = sepVel - new_sepVel;
-    let val_to_add = normal.mult(-vsep_diff).mult(parseFloat(input_data['scene']['elasticity']));
+    let val_to_add = normal.mult(-vsep_diff);
     b1.vel = b1.vel.add(val_to_add)
 }
 

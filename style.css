@@ -53,16 +53,26 @@ body {
     padding: 0;
 
     margin-top: 0;
-    padding-top: 5%;
     height: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
 }
 
 #parameters li {
-    vertical-align:middle;
+    vertical-align: middle;
     display: inline-block;
     padding: 5%;
-    height: 40%;
-    font-size: 2rem;
+    height: 50%;
+    font-family: 'Roboto Mono', monospace;
+}
+
+#parameters h2 {
+    vertical-align: middle;
+    margin: 0;
+    font-size: 3rem;
     font-family: 'Roboto Mono', monospace;
 }
 
@@ -79,11 +89,9 @@ body {
     border: none;
     border-left: 1px solid hsla(200, 10%, 50%,100);
     width: 1px;
-    height: 4rem;
+    height: 3rem;
     margin: 0;
     vertical-align:middle;
-    
-
 }
 
 #main nav {
