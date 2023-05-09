@@ -1,3 +1,6 @@
+"use strict";
+
+
 //circle has balls and magnets
 let circles = [];
 let balls = [];
@@ -250,7 +253,7 @@ const mainLoop = () => {
             const airRes = compute_air_friction(circles[elt], parseFloat(input_data["scene"]["friction"]) );
             circles[elt].addAcc(airRes.x, airRes.y);
         }
-        
+
         //ball is outside scene so we will delete it
         if (circles[elt].pos.x < -circles[elt].size || circles[elt].pos.y < -circles[elt].size || circles[elt].pos.x > (ctx.canvas.width + circles[elt].size) * 10 || circles[elt].pos.y > (ctx.canvas.height + circles[elt].size) * 10){
             circles[elt].die();
