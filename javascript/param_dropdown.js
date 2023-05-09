@@ -388,7 +388,7 @@ const fill_select_html = (obj) => {
     container.id = "selected_data_container";
 
 
-    type = obj.constructor.name;
+    let type = obj.constructor.name;
     
 
     let html;
@@ -463,7 +463,7 @@ canvas.addEventListener("click", function(e) {
         }
     } else if (selected_obj === "select") {
         selected_in_scene = false;
-        let curs_ball = new Ball(5, localX/current_zoom, localY/current_zoom, 0, 0, 0, 0, 0, 0);
+        let curs_ball = new Ball(5/current_zoom, localX/current_zoom, localY/current_zoom, 0, 0, 0, 0, 0, 0);
         for (let w = 0; w < walls.length; w++) {
             let cursToClosest = closestPointBW(curs_ball, walls[w]).subtr(curs_ball.pos);
             if (cursToClosest.mag() <= curs_ball.size){
