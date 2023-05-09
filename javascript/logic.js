@@ -38,7 +38,9 @@ canvas.addEventListener('mousemove', (e) => {
 
 
 canvas.addEventListener("wheel", (event) => {
+    
     current_zoom = Math.min(5, Math.max(0.1, current_zoom-1e-3 * event.deltaY))
+    console.log(current_zoom);
 })
 
 
@@ -64,6 +66,10 @@ function clearDead(type = "All") {
         generators = generators.filter(objIsDead);
     } else if (type === "Wall") {
         walls = walls.filter(objIsDead);
+    } else if (type === "Circles") {
+        circles = circles.filter(objIsDead);
+        balls = balls.filter(objIsDead);
+        magnets = magnets.filter(objIsDead);
     }
 }
 
@@ -229,7 +235,7 @@ const mainLoop = () => {
         placing_wall.draw(ctx, current_zoom);
     }
 
-    //iterating on balls
+    //iterating on circles (balls and magnets)
     for (let elt = 0; elt < circles.length; elt++) {
         //test collisions if not paused
         if (!paused) {
@@ -244,6 +250,11 @@ const mainLoop = () => {
             const airRes = compute_air_friction(circles[elt], parseFloat(input_data["scene"]["friction"]) );
             circles[elt].addAcc(airRes.x, airRes.y);
         }
+        
+        //ball is outside scene so we will delete it
+        if (circles[elt].pos.x < -circles[elt].size || circles[elt].pos.y < -circles[elt].size || circles[elt].pos.x > (ctx.canvas.width + circles[elt].size) * 10 || circles[elt].pos.y > (ctx.canvas.height + circles[elt].size) * 10){
+            circles[elt].die();
+        }
         circles[elt].draw(ctx, current_zoom);
     }
 
@@ -255,6 +266,7 @@ const mainLoop = () => {
 
     drawScale(ctx, current_zoom);
 
+    clearDead("Circles");
 
     requestAnimationFrame(mainLoop);
 
