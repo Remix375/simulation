@@ -463,7 +463,7 @@ canvas.addEventListener("click", function(e) {
         }
     } else if (selected_obj === "select") {
         selected_in_scene = false;
-        let curs_ball = new Ball(3 / current_zoom, localX, localY, 0, 0, 0, 0, 0, 0);
+        let curs_ball = new Ball(5, localX/current_zoom, localY/current_zoom, 0, 0, 0, 0, 0, 0);
         for (let w = 0; w < walls.length; w++) {
             let cursToClosest = closestPointBW(curs_ball, walls[w]).subtr(curs_ball.pos);
             if (cursToClosest.mag() <= curs_ball.size){
@@ -472,19 +472,19 @@ canvas.addEventListener("click", function(e) {
             }
         }
         for (let c = 0; c < balls.length; c++) {
-            if (balls[c].size > balls[c].pos.subtr(new Vector(localX, localY)).mag()) {
+            if (balls[c].size > balls[c].pos.subtr(new Vector(localX/current_zoom, localY/current_zoom)).mag()) {
                 selected_in_scene = balls[c];
                 break;
             }
         }
         for (let m = 0; m < magnets.length; m++) {
-            if (magnets[m].size > magnets[m].pos.subtr(new Vector(localX, localY)).mag()) {
+            if (magnets[m].size > magnets[m].pos.subtr(new Vector(localX/current_zoom, localY/current_zoom)).mag()) {
                 selected_in_scene = magnets[m];
                 break;
             }
         }
         for (let g = 0; g < generators.length; g++) {
-            if (generators[g].size > generators[g].pos.subtr(new Vector(localX, localY)).mag()) {
+            if (generators[g].size > generators[g].pos.subtr(new Vector(localX/current_zoom, localY/current_zoom)).mag()) {
                 selected_in_scene = generators[g];
                 break;
             }
