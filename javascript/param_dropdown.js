@@ -24,7 +24,6 @@ let selected_in_scene = false;
 
 
 const changeValue = (obj, par, that) => {
-    console.log(selected_in_scene);
     if (!selected_in_scene){
         input_data[obj][par] = that.value;
     } else {

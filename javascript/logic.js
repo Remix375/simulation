@@ -41,9 +41,7 @@ canvas.addEventListener('mousemove', (e) => {
 
 
 canvas.addEventListener("wheel", (event) => {
-    
     current_zoom = Math.min(5, Math.max(0.1, current_zoom-1e-3 * event.deltaY))
-    console.log(current_zoom);
 })
 
 
