@@ -1,5 +1,5 @@
 "use strict";
-
+/*Final Project Remi Guillou*/
 
 
 
@@ -493,3 +493,8 @@ canvas.addEventListener("click", function(e) {
         }
     }
 })
+
+
+
+
+//⊂(◉‿◉)つ

@@ -1,4 +1,5 @@
 "use strict";
+/*Final Project Remi Guillou*/
 
 class Vector{
     constructor(x, y){
@@ -254,3 +255,6 @@ function drawScale(ctx, zoom) {
 
 
 
+
+
+//⊂(◉‿◉)つ

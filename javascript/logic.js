@@ -1,5 +1,5 @@
 "use strict";
-
+/*Final Project Remi Guillou*/
 
 //circle has balls and magnets
 let circles = [];
@@ -303,3 +303,8 @@ function pause (that) {
         that.getElementsByTagName("img")[0].src = "./media/bouton-jouer.png"
     }
 }
+
+
+
+
+//⊂(◉‿◉)つ
